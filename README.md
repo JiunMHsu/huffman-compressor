@@ -34,6 +34,7 @@ Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/fi
 * List.hpp
 * Stack.hpp
 * BitWriter.hpp
+* BitReader.hpp
 
 ## to debug
 
