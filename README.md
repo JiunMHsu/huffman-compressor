@@ -26,7 +26,7 @@ Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/fi
 * [x] List.hpp
 * [x] Stack.hpp
 * [x] BitWriter.hpp
-* [ ] BitReader.hpp
+* [x] BitReader.hpp
 * [ ] principal.cpp (main program)
 
 ## to test
