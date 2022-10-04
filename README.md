@@ -35,15 +35,9 @@ Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/fi
 * [ ] decompress.hpp
 * [ ] principal.cpp (funcion decompress)
 
-## to test
+## to debug
 
-* List.hpp
-* Stack.hpp
 * BitWriter.hpp
 * BitReader.hpp
 * compress.hpp
 * principal.cpp (compress function)
-
-## to debug
-
---
