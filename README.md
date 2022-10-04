@@ -37,7 +37,5 @@ Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/fi
 
 ## to debug
 
-* BitWriter.hpp
-* BitReader.hpp
 * compress.hpp
 * principal.cpp (compress function)
