@@ -20,6 +20,10 @@ Documentación: [Guía de Ejercicio](https://drive.google.com/file/d/1ykUbWGYpef
 </br>
 Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/file/d/1zzAH3Zb-gVpNZE2QjcsID8WeysZ5tLt2/view?usp=sharing)
 
+## Problemas y Sugerencias
+
+--
+
 ## to dev
 
 * [x] lists.hpp (node & stack functions)
@@ -27,7 +31,9 @@ Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/fi
 * [x] Stack.hpp
 * [x] BitWriter.hpp
 * [x] BitReader.hpp
-* [ ] principal.cpp (main program)
+* [x] compress.hpp
+* [ ] decompress.hpp
+* [ ] principal.cpp (funcion decompress)
 
 ## to test
 
@@ -35,6 +41,8 @@ Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/fi
 * Stack.hpp
 * BitWriter.hpp
 * BitReader.hpp
+* compress.hpp
+* principal.cpp (compress function)
 
 ## to debug
 
