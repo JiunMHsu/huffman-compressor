@@ -9,6 +9,8 @@
 
 using namespace std;
 
+typedef unsigned char uchar;
+
 struct BitReader
 {
    FILE *file;
@@ -25,8 +27,8 @@ string binToString(unsigned char c)
    string s = "";
    for (int i = 0; i < 8; i++)
    {
-      u_char mask = (char)pow(2, i);
-      u_char res = c & mask;
+      uchar mask = (char)pow(2, i);
+      uchar res = c & mask;
       s = (res == 0) ? '0' + s : '1' + s;
    }
    return s;
@@ -36,7 +38,7 @@ int bitReaderRead(BitReader &br)
 {
    if (isEmpty(br.byte))
    {
-      u_char ucByte = read<u_char>(br.file);
+      uchar ucByte = read<uchar>(br.file);
       br.byte = binToString(ucByte);
    }
    char bit = br.byte[0];

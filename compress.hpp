@@ -17,6 +17,8 @@
 
 using namespace std;
 
+typedef unsigned char uchar;
+
 char *formatFileName(string s)
 {
     char fName[length(s) + 1];
@@ -137,8 +139,8 @@ void generateCompressedFile(string fName, HuffmanTable table[])
 
     // writing tree's info
     // so it can be rebuilt in decompression
-    u_char t = (u_char)countLeafs(table);
-    write<u_char>(fHuffman, t);
+    uchar t = (uchar)countLeafs(table);
+    write<uchar>(fHuffman, t);
 
     // char register structure
     // { char, huf code length, huf code }
@@ -147,10 +149,10 @@ void generateCompressedFile(string fName, HuffmanTable table[])
     {
         if (table[i].n > 0)
         {
-            write<u_char>(fHuffman, (u_char)i); // ASCII
+            write<uchar>(fHuffman, (uchar)i); // ASCII
 
             string hufCode = table[i].code;
-            write<u_char>(fHuffman, (u_char)length(hufCode)); // huffman code length
+            write<uchar>(fHuffman, (uchar)length(hufCode)); // huffman code length
 
             for (int n = 0; n < length(hufCode); n++) // huffman code
             {

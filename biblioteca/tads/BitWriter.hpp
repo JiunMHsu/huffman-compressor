@@ -9,6 +9,8 @@
 
 using namespace std;
 
+typedef unsigned char uchar;
+
 struct BitWriter
 {
    FILE *file;
@@ -27,9 +29,9 @@ void bitWriterWrite(BitWriter &bw, int bit)
    if (length(bw.byte) == 8)
    {
       int byte = stringToInt(bw.byte, 2);
-      u_char ucByte = (unsigned char)byte;
+      uchar ucByte = (uchar)byte;
 
-      write<u_char>(bw.file, ucByte);
+      write<uchar>(bw.file, ucByte);
       
       bw.byte = "";
    }
