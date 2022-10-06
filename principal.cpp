@@ -46,8 +46,7 @@ void compress(string fName)
 void decompress(string fName)
 {
 	// getting information for the hf tree
-	string table[256];
-	// tableInit(table); // ver si es necesario
+	string table[256]; // check default value (if it's "")
 	buildTable(fName, table);
 
 	// restoring the huffman tree
@@ -58,7 +57,7 @@ void decompress(string fName)
 
 int main()
 {
-	string fName; // = ?
+	string fName; // asignar nombre de archivo
 
 	if (!endsWith(fName, ".huf"))
 	{
