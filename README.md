@@ -23,7 +23,6 @@ Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/fi
 ## Problemas y Sugerencias
 
 * Revisar estructura de archivos.
-* Función repetida en ámbos headers (formatFileName).
 * Empezar testeando las funciones u operaciones que estan comentadas como "// ver si funca".
 * Verificar necesidad de la función "tableInit".
 * Setear los parámetros recibidos por la función main y configurar para que el programa pueda ser ejecutado en terminal recibiendo el nombre del archivo a comprimir.
@@ -37,7 +36,7 @@ Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/fi
 * [x] BitReader.hpp
 * [x] compress.hpp
 * [x] decompress.hpp
-* [ ] principal.cpp (funcion main)
+* [x] principal.cpp (funcion main)
 
 ## to debug
 

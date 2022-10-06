@@ -19,17 +19,6 @@ using namespace std;
 
 typedef unsigned char uchar;
 
-char *formatFileName(string s)
-{
-    char fName[length(s) + 1];
-    for (int i = 0; i < length(s); i++)
-    {
-        fName[i] = s[i];
-    }
-    fName[length(s) + 1] = '\0';
-    return fName;
-}
-
 // initiate the table array (filling blank spaces)
 void tableInit(HuffmanTable table[])
 {
@@ -41,12 +30,12 @@ void tableInit(HuffmanTable table[])
 
 void countOccurrences(string fName, HuffmanTable table[])
 {
-    FILE *f = fopen(formatFileName(fName), "r+b");
+    FILE *f = fopen(formatString(fName), "r+b");
     char c = read<char>(f);
     while (!feof(f))
     {
         // increase occurrency
-        table[c].n += 1; // ver si funca
+        table[charToInt(c)].n += 1; // ver si funca
         c = read<char>(f);
     }
     fclose(f);
@@ -130,7 +119,7 @@ void generateCompressedFile(string fName, HuffmanTable table[])
 {
     // creating new file
     string hufName = fName + ".huf";
-    FILE *fHuffman = fopen(formatFileName(hufName), "w+b");
+    FILE *fHuffman = fopen(formatString(hufName), "w+b");
 
     // setting bit writer
     BitWriter hufBW = bitWriter(fHuffman);
@@ -154,23 +143,25 @@ void generateCompressedFile(string fName, HuffmanTable table[])
 
             for (int n = 0; n < length(hufCode); n++) // huffman code
             {
-                bitWriterWrite(hufBW, charToInt(hufCode[n]));
+                char c = hufCode[n];
+                bitWriterWrite(hufBW, charToInt(c));
             }
             bitWriterFlush(hufBW); // completes the byte, so the hf code can be written
         }
     }
 
     // reading original file
-    FILE *fOriginal = fopen(formatFileName(fName), "r+b");
+    FILE *fOriginal = fopen(formatString(fName), "r+b");
 
     // writing the huf file char by char
     char c = read<char>(fOriginal);
     while (!feof(fOriginal))
     {
-        string hufCode = table[c].code;
+        string hufCode = table[charToInt(c)].code;
         for (int i = 0; i < length(hufCode); i++)
         {
-            bitWriterWrite(hufBW, charToInt(hufCode[i]));
+            char c = hufCode[i];
+            bitWriterWrite(hufBW, charToInt(c));
         }
         c = read<char>(fOriginal);
     }

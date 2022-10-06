@@ -19,20 +19,9 @@ using namespace std;
 
 typedef unsigned char uchar;
 
-char *formatFileName(string s)
-{
-    char fName[length(s) + 1];
-    for (int i = 0; i < length(s); i++)
-    {
-        fName[i] = s[i];
-    }
-    fName[length(s) + 1] = '\0';
-    return fName;
-}
-
 void buildTable(string fName, string table[])
 {
-    FILE *f = fopen(formatFileName(fName), "r+b");
+    FILE *f = fopen(formatString(fName), "r+b");
 
     int t = read<char>(f); // ver si funca
 
@@ -42,7 +31,7 @@ void buildTable(string fName, string table[])
         int len = read<char>(f); // ver si funca
         uchar code = read<char>(f);
 
-        table[c] = substring(binToString(code), 0, len);
+        table[charToInt(c)] = substring(binToString(code), 0, len);
     }
 
     fclose(f);
@@ -90,10 +79,10 @@ void generateOriginalFile(string fName, HuffmanTreeInfo *root)
 {
     // create empty original file
     string originalName = substring(fName, 0, lastIndexOf(fName, '.'));
-    FILE *fOriginal = fopen(formatFileName(originalName), "w+b");
+    FILE *fOriginal = fopen(formatString(originalName), "w+b");
 
     // reading compressed file and setting bit reader
-    FILE *fHuffman = fopen(formatFileName(fName), "r+b");
+    FILE *fHuffman = fopen(formatString(fName), "r+b");
     BitReader hufBr = bitReader(fHuffman);
 
     // moving where the content beggins
