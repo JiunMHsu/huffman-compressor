@@ -45,6 +45,15 @@ void compress(string fName)
 
 void decompress(string fName)
 {
+	// getting information for the hf tree
+	string table[256];
+	// tableInit(table); // ver si es necesario
+	buildTable(fName, table);
+
+	// restoring the huffman tree
+	HuffmanTreeInfo *root = restoreHuffmanTree(table);
+
+	generateOriginalFile(fName, root);
 }
 
 int main()

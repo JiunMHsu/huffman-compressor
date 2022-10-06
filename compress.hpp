@@ -116,8 +116,6 @@ void encode(HuffmanTreeInfo *root, HuffmanTable table[])
     }
 }
 
-// wouldn't be necessary by using TAD Array
-// arraySize<HuffmanTable>(table)
 int countLeafs(HuffmanTable table[])
 {
     int a;
@@ -142,7 +140,7 @@ void generateCompressedFile(string fName, HuffmanTable table[])
     uchar t = (uchar)countLeafs(table);
     write<uchar>(fHuffman, t);
 
-    // char register structure
+    // info structure
     // { char, huf code length, huf code }
     // 1 byte each one, 3 bytes in total
     for (int i = 0; i < 256; i++)
@@ -165,7 +163,7 @@ void generateCompressedFile(string fName, HuffmanTable table[])
     // reading original file
     FILE *fOriginal = fopen(formatFileName(fName), "r+b");
 
-    // write the huf file char by char
+    // writing the huf file char by char
     char c = read<char>(fOriginal);
     while (!feof(fOriginal))
     {
