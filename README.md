@@ -22,6 +22,7 @@ Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/fi
 
 ## Problemas y Sugerencias
 
+* PROBLEMA: agranda el tamaño en lugar de reducir 💀💀💀💀💀💀
 * Revisar estructura de archivos.
 * Empezar testeando las funciones u operaciones que estan comentadas como "// ver si funca".
 * Verificar necesidad de la función "tableInit".
