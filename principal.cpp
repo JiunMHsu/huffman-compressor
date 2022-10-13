@@ -57,7 +57,7 @@ void decompress(string fName)
 
 int main()
 {
-	string fName; // asignar nombre de archivo
+	string fName = "test.txt";
 
 	if (!endsWith(fName, ".huf"))
 	{

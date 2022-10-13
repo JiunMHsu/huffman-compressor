@@ -35,7 +35,9 @@ void countOccurrences(string fName, HuffmanTable table[])
     while (!feof(f))
     {
         // increase occurrency
-        table[charToInt(c)].n += 1; // ver si funca
+        int idx = c; // char to int convertion
+        // using char value as index for an array will result in a warning
+        table[idx].n += 1;
         c = read<char>(f);
     }
     fclose(f);
@@ -107,7 +109,7 @@ void encode(HuffmanTreeInfo *root, HuffmanTable table[])
 
 int countLeafs(HuffmanTable table[])
 {
-    int a;
+    int a = 0;
     for (int i = 0; i < 256; i++)
     {
         a = (table[i].n > 0) ? a + 1 : a;
@@ -126,7 +128,8 @@ void generateCompressedFile(string fName, HuffmanTable table[])
 
     // writing tree's info
     // so it can be rebuilt in decompression
-    uchar t = (uchar)countLeafs(table);
+    uchar t = intToChar(countLeafs(table));
+
     write<uchar>(fHuffman, t);
 
     // info structure
@@ -143,8 +146,8 @@ void generateCompressedFile(string fName, HuffmanTable table[])
 
             for (int n = 0; n < length(hufCode); n++) // huffman code
             {
-                char c = hufCode[n];
-                bitWriterWrite(hufBW, charToInt(c));
+                char bit = hufCode[n];
+                bitWriterWrite(hufBW, char(bit));
             }
             bitWriterFlush(hufBW); // completes the byte, so the hf code can be written
         }
@@ -157,11 +160,12 @@ void generateCompressedFile(string fName, HuffmanTable table[])
     char c = read<char>(fOriginal);
     while (!feof(fOriginal))
     {
-        string hufCode = table[charToInt(c)].code;
+        int idx = c;
+        string hufCode = table[idx].code;
         for (int i = 0; i < length(hufCode); i++)
         {
-            char c = hufCode[i];
-            bitWriterWrite(hufBW, charToInt(c));
+            char bit = hufCode[i];
+            bitWriterWrite(hufBW, charToInt(bit));
         }
         c = read<char>(fOriginal);
     }

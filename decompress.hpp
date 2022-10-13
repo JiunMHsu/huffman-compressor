@@ -22,18 +22,16 @@ typedef unsigned char uchar;
 void buildTable(string fName, string table[])
 {
     FILE *f = fopen(formatString(fName), "r+b");
-
-    int t = read<char>(f); // ver si funca
-
+    int t = charToInt(read<char>(f));
     for (int i = 0; i < t; i++) // t / t + 1 ??
     {
         char c = read<char>(f);
         int len = read<char>(f); // ver si funca
         uchar code = read<char>(f);
 
-        table[charToInt(c)] = substring(binToString(code), 0, len);
+        int idx = c;
+        table[idx] = substring(binToString(code), 0, len);
     }
-
     fclose(f);
 }
 
@@ -41,7 +39,8 @@ void buildTable(string fName, string table[])
 HuffmanTreeInfo *restoreHuffmanTree(string table[])
 {
     // create first node (root)
-    HuffmanTreeInfo *root = huffmanTreeInfo(256, 0, NULL, NULL);
+    HuffmanTreeInfo *root = new HuffmanTreeInfo();
+    root = huffmanTreeInfo(256, 0, NULL, NULL);
 
     // i = ASCII code
     for (int i = 0; i < 256; i++)
@@ -86,7 +85,7 @@ void generateOriginalFile(string fName, HuffmanTreeInfo *root)
     BitReader hufBr = bitReader(fHuffman);
 
     // moving where the content beggins
-    int t = read<char>(fHuffman);
+    int t = charToInt(read<char>(fHuffman));
     // t times info structure (3 bytes): { char, huf code length, huf code }
     seek<char>(fHuffman, (t * 3) + 1); // plus 1 (the fisrt byte)
 
