@@ -82,7 +82,7 @@ HuffmanTreeInfo *createHuffmanTree(List<HuffmanTreeInfo *> &charList)
         HuffmanTreeInfo *infoB = listRemoveFirst<HuffmanTreeInfo *>(charList);
 
         // create new htInfo to point them
-        HuffmanTreeInfo *newInfo = huffmanTreeInfo(256 + i, infoA->n + infoB->n, infoA, infoB);
+        HuffmanTreeInfo *newInfo = huffmanTreeInfo(256 + i, infoA->n + infoB->n, infoB, infoA);
 
         // insert to the list as a node
         listOrderedInsert<HuffmanTreeInfo *>(charList, newInfo, cmpHtInfo);

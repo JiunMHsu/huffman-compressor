@@ -16,10 +16,6 @@ Dicha práctica consiste en el desarrollo de un compresor de archivos de texto i
 
 ## Enlaces
 
-Documentación: [Guía de Ejercicio](https://drive.google.com/file/d/1ykUbWGYpef3t9sDZq8UohbVvJKMZiG9w/view?usp=sharing) (página 243)
-</br>
-Explicación de la consigna: [Clase AYED 2020-09-23](https://drive.google.com/file/d/1zzAH3Zb-gVpNZE2QjcsID8WeysZ5tLt2/view?usp=sharing)
-
 ## Problemas y Sugerencias
 
 * PROBLEMA: agranda el tamaño en lugar de reducir 💀💀💀💀💀💀
