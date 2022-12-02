@@ -39,8 +39,11 @@ void bitWriterWrite(BitWriter &bw, int bit)
 
 void bitWriterFlush(BitWriter &bw)
 {
-   bw.byte = rpad(bw.byte, 7, '0');
-   bitWriterWrite(bw, 0);
+   if (length(bw.byte) < 8 && length(bw.byte) > 0)
+   {
+      bw.byte = rpad(bw.byte, 7, '0');
+      bitWriterWrite(bw, 0);
+   }
 }
 
 #endif

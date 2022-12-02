@@ -107,6 +107,8 @@ void encode(HuffmanTreeInfo *root, HuffmanTable table[])
     }
 }
 
+// DEBUG de la tabla
+
 int countLeafs(HuffmanTable table[])
 {
     int a = 0;
@@ -128,7 +130,7 @@ void generateCompressedFile(string fName, HuffmanTable table[])
 
     // writing tree's info
     // so it can be rebuilt in decompression
-    uchar t = intToChar(countLeafs(table));
+    uchar t = countLeafs(table);
 
     write<uchar>(fHuffman, t);
 
@@ -139,15 +141,24 @@ void generateCompressedFile(string fName, HuffmanTable table[])
     {
         if (table[i].n > 0)
         {
-            write<uchar>(fHuffman, (uchar)i); // ASCII
+            uchar a = (uchar)i;        // DEBUG
+            write<uchar>(fHuffman, a); // ASCII, 1 byte
 
             string hufCode = table[i].code;
-            write<uchar>(fHuffman, (uchar)length(hufCode)); // huffman code length
+
+            // (uchar)length(hufCode)
+            int b = length(hufCode); // DEBUG
+            uchar c = (uchar)b;      // DEBUG
+
+            write<uchar>(fHuffman, c); // huffman code length, segundo byte
 
             for (int n = 0; n < length(hufCode); n++) // huffman code
             {
-                char bit = hufCode[n];
-                bitWriterWrite(hufBW, char(bit));
+                char bit = hufCode[n]; // '0' / '1'
+
+                int d = charToInt(bit); // DEBUG
+
+                bitWriterWrite(hufBW, d);
             }
             bitWriterFlush(hufBW); // completes the byte, so the hf code can be written
         }
@@ -157,7 +168,7 @@ void generateCompressedFile(string fName, HuffmanTable table[])
     FILE *fOriginal = fopen(formatString(fName), "r+b");
 
     // writing the huf file char by char
-    char c = read<char>(fOriginal);
+    uchar c = read<uchar>(fOriginal);
     while (!feof(fOriginal))
     {
         int idx = c;
@@ -167,7 +178,7 @@ void generateCompressedFile(string fName, HuffmanTable table[])
             char bit = hufCode[i];
             bitWriterWrite(hufBW, charToInt(bit));
         }
-        c = read<char>(fOriginal);
+        c = read<uchar>(fOriginal);
     }
     bitWriterFlush(hufBW); // completes the last byte before closing file
 

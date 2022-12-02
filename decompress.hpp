@@ -22,11 +22,11 @@ typedef unsigned char uchar;
 void buildTable(string fName, string table[])
 {
     FILE *f = fopen(formatString(fName), "r+b");
-    int t = charToInt(read<char>(f));
-    for (int i = 0; i < t; i++) // t / t + 1 ??
+    int t = read<uchar>(f);
+    for (int i = 0; i < t; i++)
     {
-        char c = read<char>(f);
-        int len = read<char>(f); // ver si funca
+        uchar c = read<char>(f);
+        int len = read<char>(f);
         uchar code = read<char>(f);
 
         int idx = c;
@@ -52,7 +52,7 @@ HuffmanTreeInfo *restoreHuffmanTree(string table[])
 
             for (int n = 0; n < length(code); n++)
             {
-                if (code[n] == 0)
+                if (code[n] == '0') // code[n] == 0
                 {
                     // create if the node isn't created
                     aux->left = (aux->left == NULL) ? huffmanTreeInfo(256, 0, NULL, NULL) : aux->left;
@@ -66,14 +66,13 @@ HuffmanTreeInfo *restoreHuffmanTree(string table[])
             }
 
             aux->c = i; // setting leaf
-
-            // delete aux ??
         }
     }
 
     return root;
 }
 
+// cambio tipo de dato a uchar
 void generateOriginalFile(string fName, HuffmanTreeInfo *root)
 {
     // create empty original file
@@ -85,22 +84,24 @@ void generateOriginalFile(string fName, HuffmanTreeInfo *root)
     BitReader hufBr = bitReader(fHuffman);
 
     // moving where the content beggins
-    int t = charToInt(read<char>(fHuffman));
+    int t = read<uchar>(fHuffman);
     // t times info structure (3 bytes): { char, huf code length, huf code }
-    seek<char>(fHuffman, (t * 3) + 1); // plus 1 (the fisrt byte)
+    seek<uchar>(fHuffman, (t * 3) + 1); // plus 1 (the fisrt byte)
 
     while (!feof(fHuffman))
     {
         HuffmanTreeInfo *aux = root;
-        int bit = bitReaderRead(hufBr);
+        int bit;
 
         // navigate the tree according to the obtained bit
         // getting NULL in both next-pointers means it's a leaf (node that contains a char)
         while (aux->left != NULL || aux->right != NULL)
         {
-            aux = (bit == 0) ? aux->left : aux->right;
             bit = bitReaderRead(hufBr);
+            aux = (bit == 0) ? aux->left : aux->right;
         }
+
+        cout << (char)aux->c << endl;
 
         // conditional to prevent the last incomplete byte
         if (aux->c < 256)
