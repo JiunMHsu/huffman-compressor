@@ -55,8 +55,24 @@ void decompress(string fName)
 	generateOriginalFile(fName, root);
 }
 
-int main()
+int main(/* int argc, char **argv */)
 {
+	/*
+	for (int i = 1; i < argc; i++)
+	{
+		string fName = argv[i];
+
+		if (!endsWith(fName, ".huf"))
+		{
+			compress(fName);
+		}
+		else
+		{
+			decompress(fName);
+		}
+	}
+	*/
+	
 	// string fName = "a.txt";
 	string fName = "a.txt.huf";
 
