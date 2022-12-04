@@ -20,6 +20,7 @@ Dicha práctica consiste en el desarrollo de un compresor de archivos de texto i
 ## Problemas y Sugerencias
 
 * PROBLEMA: Sigue habiendo 2 bit demas al realizar la descompresion.
+* SUGERENCIA: Modificar el nombre del archivo generado por el decompress (Para evitar sobrescribir el archivo original del mismo directorio)
 
 ## to dev
 
