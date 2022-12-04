@@ -13,22 +13,16 @@ Dicha práctica consiste en el desarrollo de un compresor de archivos de texto i
 2. Desarrollo del TAD List y TAD Stack.
 3. Desarrollo del TAD BitReader y TAD BitWriter.
 4. Desarrollo de las funciones Compress y Decompress.
+5. DEPURAR 💀💀💀💀💀💀💀💀💀
 
 ## Enlaces
 
 ## Problemas y Sugerencias
 
-* PROBLEMA: agranda el tamaño en lugar de reducir 💀💀💀💀💀💀
-* Revisar estructura de archivos.
-* Empezar testeando las funciones u operaciones que estan comentadas como "// ver si funca".
-* Verificar necesidad de la función "tableInit".
-* Setear los parámetros recibidos por la función main y configurar para que el programa pueda ser ejecutado en terminal recibiendo el nombre del archivo a comprimir.
+* PROBLEMA: Sigue habiendo 2 bit demas al realizar la descompresion.
 
 ## to dev
 
-* [x] lists.hpp (node & stack functions)
-* [x] List.hpp
-* [x] Stack.hpp
 * [x] BitWriter.hpp
 * [x] BitReader.hpp
 * [x] compress.hpp
