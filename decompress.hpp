@@ -19,18 +19,39 @@ using namespace std;
 
 typedef unsigned char uchar;
 
+// returns the size in bytes ocuped by the huffman code
+// int getSize(int t)
+// {
+//     int size = 0;
+//     while (size < t / 2)
+//     {
+//         size += 8; // counted in bits
+//     }
+//     return size / 8; // returns byte
+// }
+
 void buildTable(string fName, string table[])
 {
     FILE *f = fopen(formatString(fName), "r+b");
+
     int t = read<uchar>(f);
+    int infoSize = 2; // + getSize(t);
     for (int i = 0; i < t; i++)
     {
-        uchar c = read<char>(f);
-        int len = read<char>(f);
-        uchar code = read<char>(f);
+        BitReader fBr = bitReader(f);
+        seek<uchar>(f, (i * infoSize) + 1);
+        uchar c = read<uchar>(f); // first byte
+        int len = read<uchar>(f); // second byte
 
+        // reading huf code
+        string bitStr = "";
+        for (int i = 0; i < len; i++)
+        {
+            int bit = bitReaderRead(fBr);
+            bitStr = bitStr + intToString(bit);
+        }
         int idx = c;
-        table[idx] = substring(binToString(code), 0, len);
+        table[idx] = bitStr;
     }
     fclose(f);
 }
@@ -73,11 +94,11 @@ HuffmanTreeInfo *restoreHuffmanTree(string table[])
 }
 
 // cambio tipo de dato a uchar
-void generateOriginalFile(string fName, HuffmanTreeInfo *root)
+void restoreFile(string fName, HuffmanTreeInfo *root)
 {
     // create empty original file
-    string originalName = substring(fName, 0, lastIndexOf(fName, '.'));
-    FILE *fOriginal = fopen(formatString(originalName), "w+b");
+    string restoredName = substring(fName, 0, lastIndexOf(fName, '.'));
+    FILE *fRestored = fopen(formatString(restoredName), "w+b");
 
     // reading compressed file and setting bit reader
     FILE *fHuffman = fopen(formatString(fName), "r+b");
@@ -86,7 +107,7 @@ void generateOriginalFile(string fName, HuffmanTreeInfo *root)
     // moving where the content beggins
     int t = read<uchar>(fHuffman);
     // t times info structure (3 bytes): { char, huf code length, huf code }
-    seek<uchar>(fHuffman, (t * 3) + 1); // plus 1 (the fisrt byte)
+    // seek<uchar>(fHuffman, (t * (2 + getSize(t))) + 1); // plus 1 (the fisrt byte)
 
     while (!feof(fHuffman))
     {
@@ -106,10 +127,10 @@ void generateOriginalFile(string fName, HuffmanTreeInfo *root)
         // conditional to prevent the last incomplete byte
         if (aux->c < 256)
         {
-            write<char>(fOriginal, aux->c);
+            write<char>(fRestored, aux->c);
         }
     }
 
-    fclose(fOriginal);
+    fclose(fRestored);
     fclose(fHuffman);
 }

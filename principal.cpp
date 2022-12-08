@@ -23,22 +23,61 @@
 
 using namespace std;
 
+// * FUNCIONES DE DEPURACION * //
+
+void huffmanTreeToDebug(HuffmanTreeInfo *root)
+{
+	// recorrer el arbol usando TAD HuffmanTree
+	HuffmanTree ht = huffmanTree(root);
+
+	string cod;
+	while (huffmanTreeHasNext(ht))
+	{
+		HuffmanTreeInfo *x = huffmanTreeNext(ht, cod);
+		cout << x->c << ", (" << x->n << "), "
+			  << "[" << cod << "]" << endl;
+	}
+	cout << endl;
+	cout << endl;
+}
+
+void huffmanTableToDebug(HuffmanTable table[])
+{
+	for (int i = 0; i < 256; i++)
+	{
+		if (table[i].n > 0)
+		{
+			cout << (char)i << ": " << table[i].code << endl;
+			cout << "ocurrencias: " << table[i].n << endl;
+			cout << "---------------------------------------" << endl;
+		}
+	}
+}
+
+// ****************** //
+
 void compress(string fName)
 {
-	// count frequency
+	// contar ocurrencias
 	HuffmanTable table[256];
 	tableInit(table); // ver si es necesario
 	countOccurrences(fName, table);
 
-	// create a list of all chars
+	// crear lista de chars
 	List<HuffmanTreeInfo *> charList = list<HuffmanTreeInfo *>();
 	createCharList(charList, table);
 
-	// convert list to tree
+	// convertir la lista a arbol
 	HuffmanTreeInfo *root = createHuffmanTree(charList);
 
-	// writing down the huffman code
+	// * DEBUGGING
+	huffmanTreeToDebug(root);
+
+	// registrar el codigo hufman en la tabla
 	encode(root, table);
+
+	// * DEBUGGING
+	huffmanTableToDebug(table);
 
 	generateCompressedFile(fName, table);
 }
@@ -52,13 +91,13 @@ void decompress(string fName)
 	// restoring the huffman tree
 	HuffmanTreeInfo *root = restoreHuffmanTree(table);
 
-	generateOriginalFile(fName, root);
+	restoreFile(fName, root);
 }
 
-int main(/* int argc, char **argv */)
+int main()
 {
-	// string fName = "a.txt";
-	string fName = "a.txt.huf";
+	string fName = "text.txt";
+	// string fName = "hola.txt.huf";
 
 	if (!endsWith(fName, ".huf"))
 	{

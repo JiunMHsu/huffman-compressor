@@ -22,16 +22,7 @@ Dicha práctica consiste en el desarrollo de un compresor de archivos de texto i
 * PROBLEMA: Sigue habiendo 2 bit demas al realizar la descompresion.
 * SUGERENCIA: Modificar el nombre del archivo generado por el decompress (Para evitar sobrescribir el archivo original del mismo directorio)
 
-## to dev
+## Proceso de Depuracion
 
-* [x] BitWriter.hpp
-* [x] BitReader.hpp
-* [x] compress.hpp
-* [x] decompress.hpp
-* [x] principal.cpp (funcion main)
-
-## to debug
-
-* compress.hpp
-* decompress.hpp
-* principal.cpp
+* Arbol Huffman
+* Tabla Huffman (con el codigo grabado)

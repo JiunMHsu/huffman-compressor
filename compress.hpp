@@ -19,7 +19,19 @@ using namespace std;
 
 typedef unsigned char uchar;
 
-// initiate the table array (filling blank spaces)
+// * DEBUG FUNCTION
+int getSize(int t)
+{
+    int size = 0;
+    while (size < t / 2)
+    {
+        size += 8; // counted in bits
+    }
+    return size / 8; // returns byte
+}
+// ***************
+
+// inicializa los campos del huffman table
 void tableInit(HuffmanTable table[])
 {
     for (int i = 0; i < 256; i++)
@@ -28,32 +40,36 @@ void tableInit(HuffmanTable table[])
     }
 }
 
+// incrementa las ocurrencias de cada char
 void countOccurrences(string fName, HuffmanTable table[])
 {
     FILE *f = fopen(formatString(fName), "r+b");
     char c = read<char>(f);
     while (!feof(f))
     {
-        // increase occurrency
-        int idx = c; // char to int convertion
-        // using char value as index for an array will result in a warning
+        int idx = c; // conversion directa de char a int (toma el valor ASCII)
+        // usar directamente el char como argumento del campo index resultara en un warning
         table[idx].n += 1;
         c = read<char>(f);
     }
     fclose(f);
 }
 
-// criteria:
-// by char frequency min -> max
-// for same freq, sort by ASCII min -> max
+// esta funcion esta desarrollada para ser invocada por dos funciones concretas ( listSort, listOrderedInsert )
+// declara unicamente los casos en donde se debe ordenar ( retorno del valor {1} )
+// cualquier otro caso retornara {-1} indiferentemente
+//
+// criterio:
+// de menor frecuencia a mayor frecuencia
+// para mismas ocurrencias, ordenar alfabeticamente
 int cmpHtInfo(HuffmanTreeInfo *a, HuffmanTreeInfo *b) // revisar si funca bien
 {
-    // int ret = -1;
-    // ret = ((a->n > b->n) || (a->n == b->n && a->c > b->c)) ? 1 : ret;
+    // (a->n > b->n) implica compraracion de ocurrencias
+    // (a->n == b->n && a->c > b->c) implica comparacion alfabetica en caso de mismas ocurrencias
     return ((a->n > b->n) || (a->n == b->n && a->c > b->c)) ? 1 : -1;
 }
 
-// add nodes and sort
+// crea la lista agregando nodos, y ordena
 void createCharList(List<HuffmanTreeInfo *> &charList, HuffmanTable table[])
 {
     for (int i = 0; i < 256; i++)
@@ -61,7 +77,7 @@ void createCharList(List<HuffmanTreeInfo *> &charList, HuffmanTable table[])
         long freq = table[i].n;
         if (freq > 0)
         {
-            // 'i' represents ASCII code
+            // 'i' representa el codigo ASCII
             HuffmanTreeInfo *htInfo = huffmanTreeInfo(i, freq, NULL, NULL);
             listAdd<HuffmanTreeInfo *>(charList, htInfo);
         }
@@ -69,31 +85,30 @@ void createCharList(List<HuffmanTreeInfo *> &charList, HuffmanTable table[])
     listSort<HuffmanTreeInfo *>(charList, cmpHtInfo);
 }
 
-// converts list to tree and returns the root pointer
+// convierte la lista en arbol y retorna el puntero a la raiz
 HuffmanTreeInfo *createHuffmanTree(List<HuffmanTreeInfo *> &charList)
 {
-    // at the end of the iteration
-    // it should remain only one node in the list
-    // which contains the whole huffman tree
+    // al finalizar la iteracion deberia quedar un solo nodo en la lista
+    // el cual contendra todo el arbol
     for (int i = 1; listSize(charList) > 1; i++)
     {
-        // get the first two info
+        // obtener los primeros dos infos
         HuffmanTreeInfo *infoA = listRemoveFirst<HuffmanTreeInfo *>(charList);
         HuffmanTreeInfo *infoB = listRemoveFirst<HuffmanTreeInfo *>(charList);
 
-        // create new htInfo to point them
+        // crear un nuevo htInfo el cual los apunte
         HuffmanTreeInfo *newInfo = huffmanTreeInfo(256 + i, infoA->n + infoB->n, infoB, infoA);
 
-        // insert to the list as a node
+        // insertar a la lista como nodo (respetando el criterio de ordenamiento)
         listOrderedInsert<HuffmanTreeInfo *>(charList, newInfo, cmpHtInfo);
     }
 
-    // returns the huffman tree root by removing the last node remaining
-    // because the root should point the tree instead of the list
+    // retorna la raiz del arbol huffman removiendo el ultimo nodo sobrante
+    // ya que el puntero 'raiz' deberia apuntar directo al arbol y no a la lista
     return listRemoveFirst<HuffmanTreeInfo *>(charList);
 }
 
-// iterate the tree and store the huffman code
+// iterar sobre el arbol y almacenar el codigo
 void encode(HuffmanTreeInfo *root, HuffmanTable table[])
 {
     HuffmanTree ht = huffmanTree(root);
@@ -107,7 +122,7 @@ void encode(HuffmanTreeInfo *root, HuffmanTable table[])
     }
 }
 
-// DEBUG de la tabla
+// * HASTA ACA FUNCA BIEN ==============================================================
 
 int countLeafs(HuffmanTable table[])
 {
@@ -121,48 +136,114 @@ int countLeafs(HuffmanTable table[])
 
 void generateCompressedFile(string fName, HuffmanTable table[])
 {
-    // creating new file
+    // crear nuevo archivo (.huf)
     string hufName = fName + ".huf";
     FILE *fHuffman = fopen(formatString(hufName), "w+b");
 
-    // setting bit writer
+    // inicializar el bit writer
     BitWriter hufBW = bitWriter(fHuffman);
 
-    // writing tree's info
-    // so it can be rebuilt in decompression
-    uchar t = countLeafs(table);
-
+    // grabar la informacion del arbol
+    uchar t = countLeafs(table); // cantidad de nodos 'char', es decir, cantidad de registros INFO
     write<uchar>(fHuffman, t);
 
-    // info structure
+    // estructura de los registros INFO
     // { char, huf code length, huf code }
-    // 1 byte each one, 3 bytes in total
+    // longitud maxima del condigo huffman es la mited del total de chars
+
+    int maxHufCodeLen = ((t % 2) == 0) ? t / 2 : (t + 1) / 2;
+
+    cout << (int)t << " | " << maxHufCodeLen << endl;
+
     for (int i = 0; i < 256; i++)
     {
         if (table[i].n > 0)
         {
-            uchar a = (uchar)i;        // DEBUG
-            write<uchar>(fHuffman, a); // ASCII, 1 byte
+            write<uchar>(fHuffman, (uchar)i);               // ASCII, 1 byte
+            string hufCode = table[i].code;                 // obtain hufCode
+            write<uchar>(fHuffman, (uchar)length(hufCode)); // huffman code length, 1 byte
 
-            string hufCode = table[i].code;
+            // * DEBUG * //
+            cout << (char)i << ": "
+                 << "[" << hufCode << "]" << endl;
+            // ********* //
 
-            // (uchar)length(hufCode)
-            int b = length(hufCode); // DEBUG
-            uchar c = (uchar)b;      // DEBUG
+            if (length(hufCode) < maxHufCodeLen)
+            {
+                hufCode = rpad(hufCode, maxHufCodeLen, '0'); // padding the huf code to the maximum length
+            }
 
-            write<uchar>(fHuffman, c); // huffman code length, segundo byte
+            cout << "STR: " << hufCode << endl; // * DEBUG * //
+
+            cout << "BIT: "; // * DEBUG * //
 
             for (int n = 0; n < length(hufCode); n++) // huffman code
             {
                 char bit = hufCode[n]; // '0' / '1'
 
-                int d = charToInt(bit); // DEBUG
+                cout << bit; // * DEBUG * //
 
-                bitWriterWrite(hufBW, d);
+                bitWriterWrite(hufBW, charToInt(bit));
             }
+            cout << endl; // * DEBUG * //
+
             bitWriterFlush(hufBW); // completes the byte, so the hf code can be written
         }
     }
+
+    // * DEBUGGING * * DEBUGGING * * DEBUGGING * * DEBUGGING * * DEBUGGING * * DEBUGGING * * DEBUGGING *//
+
+    write<uchar>(fHuffman, 'Q'); // Marca el ultimo caracter del archivo
+    seek<uchar>(fHuffman, 0);
+
+    // Leer el contenido escrito
+    int reg = read<uchar>(fHuffman); // Primer byte, * catidad de registros INFO
+    cout << "cantidad de registros: " << reg << endl;
+
+    int infoSize = 2 + getSize(reg); // Calculo del tamanio de los registros
+    cout << "Info Size: " << infoSize << endl;
+
+    for (int i = 0; i < reg; i++)
+    {
+        // Inicializar bitReader
+        // El reader se debe inicializar para cada registro ya que estas no seran
+        // leias de forma completa (es decir, terminando cada byte)
+        BitReader br = bitReader(fHuffman);
+
+        seek<uchar>(fHuffman, (i * infoSize) + 1);
+
+        uchar c = read<uchar>(fHuffman); // first byte
+        int len = read<uchar>(fHuffman); // second byte
+
+        // reading huf code
+        string bitStr = "";
+        for (int i = 0; i < len; i++)
+        {
+            int bit = bitReaderRead(br);
+            bitStr = bitStr + intToString(bit);
+        }
+
+        // Salida de lecturas
+        cout << c << ", "
+             << "(" << len << "), "
+             << "[" << bitStr << "]" << endl;
+    }
+
+    // Leer ultimo caracter
+    cout << endl;
+    uchar q = read<uchar>(fHuffman);
+    cout << q << endl; // Salida 'Q'
+
+    // Prueba del seek directo al contenido de texto
+    seek<uchar>(fHuffman, 0);
+    seek<uchar>(fHuffman, (reg * (2 + getSize(reg))) + 1);
+
+    q = read<uchar>(fHuffman);
+    cout << q << endl; // Salida 'Q'
+
+    // ************************************************************************************************ //
+
+    // ===================================================================================================================
 
     // reading original file
     FILE *fOriginal = fopen(formatString(fName), "r+b");
