@@ -55,18 +55,20 @@ void decompress(string fName)
 	restoreFile(fName, root);
 }
 
-int main()
+int main(int argc, char **argv)
 {
-	// string fName = "text.txt";
-	string fName = "text.txt.huf";
+	for (int i = 1; i < argc; i++)
+	{
+		string fName = argv[i];
 
-	if (!endsWith(fName, ".huf"))
-	{
-		compress(fName);
-	}
-	else
-	{
-		decompress(fName);
+		if (!endsWith(fName, ".huf"))
+		{
+			compress(fName);
+		}
+		else
+		{
+			decompress(fName);
+		}
 	}
 
 	return 0;
