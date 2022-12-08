@@ -45,11 +45,11 @@ void compress(string fName)
 
 void decompress(string fName)
 {
-	// getting information for the hf tree
+	// leer la informacion del arbol
 	string table[256];
 	buildTable(fName, table);
 
-	// restoring the huffman tree
+	// reconstruir el arbol huffman
 	HuffmanTreeInfo *root = restoreHuffmanTree(table);
 
 	restoreFile(fName, root);

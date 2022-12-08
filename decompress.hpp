@@ -19,15 +19,15 @@ using namespace std;
 
 typedef unsigned char uchar;
 
-// returns the size in bytes ocuped by the huffman code
+// retorna el tamanio en bytes, ocupado por el huffman code
 int getSize(int t)
 {
     int size = 0;
     while (size < t / 2)
     {
-        size += 8; // counted in bits
+        size += 8; // cuenta en bits
     }
-    return size / 8; // returns byte
+    return size / 8; // retorna bytes
 }
 
 void buildTable(string fName, string table[])
@@ -41,12 +41,14 @@ void buildTable(string fName, string table[])
         // Se inicializa un reader para cada registro
         BitReader fBr = bitReader(f);
 
+        // posicionamiento directo en el comienzo de cada registro
         seek<uchar>(f, (i * infoSize) + 1);
 
-        uchar c = read<uchar>(f); // first byte
-        int len = read<uchar>(f); // second byte
+        // lectura de los primeros dos cmpos
+        uchar c = read<uchar>(f); // primer byte (char)
+        int len = read<uchar>(f); // segundo byte (longitud del huf code)
 
-        // reading huf code
+        // lectura del huffman code
         string bitStr = "";
         for (int i = 0; i < len; i++)
         {
@@ -59,10 +61,10 @@ void buildTable(string fName, string table[])
     fclose(f);
 }
 
-// restore huffman tree and setting leafs
+// reconstruir el arbol huffman
 HuffmanTreeInfo *restoreHuffmanTree(string table[])
 {
-    // create first node (root)
+    // crear primer nodo (raiz)
     HuffmanTreeInfo *root = new HuffmanTreeInfo();
     root = huffmanTreeInfo(256, 0, NULL, NULL);
 
@@ -76,7 +78,7 @@ HuffmanTreeInfo *restoreHuffmanTree(string table[])
 
             for (int n = 0; n < length(code); n++)
             {
-                if (code[n] == '0') // code[n] == 0
+                if (code[n] == '0')
                 {
                     // create if the node isn't created
                     aux->left = (aux->left == NULL) ? huffmanTreeInfo(256, 0, NULL, NULL) : aux->left;
@@ -89,45 +91,44 @@ HuffmanTreeInfo *restoreHuffmanTree(string table[])
                 }
             }
 
-            aux->c = i; // setting leaf
+            aux->c = i; // asignar char a la hoja
         }
     }
 
     return root;
 }
 
-// cambio tipo de dato a uchar
 void restoreFile(string fName, HuffmanTreeInfo *root)
 {
-    // create empty original file
+    // crear archivo 'restaurado' vacio
     string restoredName = "restored-" + substring(fName, 0, lastIndexOf(fName, '.'));
     FILE *fRestored = fopen(formatString(restoredName), "w+b");
 
-    // reading compressed file and setting bit reader
+    // abrir archivo comprimido e inicializar el bit reader
     FILE *fHuffman = fopen(formatString(fName), "r+b");
     BitReader hufBr = bitReader(fHuffman);
 
-    // moving where the content beggins
+    // posicionar al comienzo del contenido comprimido
     int t = read<uchar>(fHuffman);
-    // t times info structure (3 bytes): { char, huf code length, huf code }
-    seek<uchar>(fHuffman, (t * (2 + getSize(t))) + 1); // plus 1 (the fisrt byte)
+    // t veces el tamanio de los registros, mas 1 que es el primer byte
+    seek<uchar>(fHuffman, (t * (2 + getSize(t))) + 1);
 
     while (!feof(fHuffman))
     {
         HuffmanTreeInfo *aux = root;
         int bit;
 
-        // navigate the tree according to the obtained bit
-        // getting NULL in both next-pointers means it's a leaf (node that contains a char)
+        // moverse en el arbol segun el bit obtenido
+        //
+        // encontrarse con NULL en ambos punteros a los hijos
+        // significa que es una hoja (nodo el cual contiene un char)
         while (aux->left != NULL || aux->right != NULL)
         {
             bit = bitReaderRead(hufBr);
             aux = (bit == 0) ? aux->left : aux->right;
         }
 
-        cout << (char)aux->c << endl;
-
-        // conditional to prevent the last incomplete byte
+        // condicional para evitar el ultimo byte incompleto
         if (aux->c < 256)
         {
             write<char>(fRestored, aux->c);

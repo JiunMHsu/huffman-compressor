@@ -143,30 +143,31 @@ void generateCompressedFile(string fName, HuffmanTable table[])
     {
         if (table[i].n > 0)
         {
-            write<uchar>(fHuffman, (uchar)i);               // ASCII, 1 byte
-            string hufCode = table[i].code;                 // obtain hufCode
-            write<uchar>(fHuffman, (uchar)length(hufCode)); // huffman code length, 1 byte
+            write<uchar>(fHuffman, (uchar)i);               // registrar el char (ASCII)
+            string hufCode = table[i].code;                 // obtener el codigo huffman
+            write<uchar>(fHuffman, (uchar)length(hufCode)); // registrar la longitud del codigo
 
             if (length(hufCode) < maxHufCodeLen)
             {
-                hufCode = rpad(hufCode, maxHufCodeLen, '0'); // padding the huf code to the maximum length
+                // completa el huf code a la longitud maxima
+                // forzando que todos los codigod tengan la misma longitud
+                // antes de ser grabado por el birWritter
+                hufCode = rpad(hufCode, maxHufCodeLen, '0');
             }
 
-            for (int n = 0; n < length(hufCode); n++) // huffman code
+            for (int n = 0; n < length(hufCode); n++) // registrar el huffman code
             {
                 char bit = hufCode[n]; // '0' / '1'
                 bitWriterWrite(hufBW, charToInt(bit));
             }
-            bitWriterFlush(hufBW); // completes the byte, so the hf code can be written
+            bitWriterFlush(hufBW); // completa el byte para que pueda ser grabado en el archivo
         }
     }
 
-    // FUNCIONA HASTA ACA ======================================================================================
-
-    // reading original file
+    // leer el archivo a comprimir
     FILE *fOriginal = fopen(formatString(fName), "r+b");
 
-    // writing the huf file char by char
+    // registrar char por char el archivo huffman
     uchar c = read<uchar>(fOriginal);
     while (!feof(fOriginal))
     {
@@ -179,7 +180,7 @@ void generateCompressedFile(string fName, HuffmanTable table[])
         }
         c = read<uchar>(fOriginal);
     }
-    bitWriterFlush(hufBW); // completes the last byte before closing file
+    bitWriterFlush(hufBW); // completa el ultimo byte antes de cerrar el archivo
 
     fclose(fOriginal);
     fclose(fHuffman);
