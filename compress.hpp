@@ -19,18 +19,6 @@ using namespace std;
 
 typedef unsigned char uchar;
 
-// * DEBUG FUNCTION
-int getSize(int t)
-{
-    int size = 0;
-    while (size < t / 2)
-    {
-        size += 8; // counted in bits
-    }
-    return size / 8; // returns byte
-}
-// ***************
-
 // inicializa los campos del huffman table
 void tableInit(HuffmanTable table[])
 {
@@ -122,8 +110,6 @@ void encode(HuffmanTreeInfo *root, HuffmanTable table[])
     }
 }
 
-// * HASTA ACA FUNCA BIEN ==============================================================
-
 int countLeafs(HuffmanTable table[])
 {
     int a = 0;
@@ -153,8 +139,6 @@ void generateCompressedFile(string fName, HuffmanTable table[])
 
     int maxHufCodeLen = ((t % 2) == 0) ? t / 2 : (t + 1) / 2;
 
-    cout << (int)t << " | " << maxHufCodeLen << endl;
-
     for (int i = 0; i < 256; i++)
     {
         if (table[i].n > 0)
@@ -163,87 +147,21 @@ void generateCompressedFile(string fName, HuffmanTable table[])
             string hufCode = table[i].code;                 // obtain hufCode
             write<uchar>(fHuffman, (uchar)length(hufCode)); // huffman code length, 1 byte
 
-            // * DEBUG * //
-            cout << (char)i << ": "
-                 << "[" << hufCode << "]" << endl;
-            // ********* //
-
             if (length(hufCode) < maxHufCodeLen)
             {
                 hufCode = rpad(hufCode, maxHufCodeLen, '0'); // padding the huf code to the maximum length
             }
 
-            cout << "STR: " << hufCode << endl; // * DEBUG * //
-
-            cout << "BIT: "; // * DEBUG * //
-
             for (int n = 0; n < length(hufCode); n++) // huffman code
             {
                 char bit = hufCode[n]; // '0' / '1'
-
-                cout << bit; // * DEBUG * //
-
                 bitWriterWrite(hufBW, charToInt(bit));
             }
-            cout << endl; // * DEBUG * //
-
             bitWriterFlush(hufBW); // completes the byte, so the hf code can be written
         }
     }
 
-    // * DEBUGGING * * DEBUGGING * * DEBUGGING * * DEBUGGING * * DEBUGGING * * DEBUGGING * * DEBUGGING *//
-
-    write<uchar>(fHuffman, 'Q'); // Marca el ultimo caracter del archivo
-    seek<uchar>(fHuffman, 0);
-
-    // Leer el contenido escrito
-    int reg = read<uchar>(fHuffman); // Primer byte, * catidad de registros INFO
-    cout << "cantidad de registros: " << reg << endl;
-
-    int infoSize = 2 + getSize(reg); // Calculo del tamanio de los registros
-    cout << "Info Size: " << infoSize << endl;
-
-    for (int i = 0; i < reg; i++)
-    {
-        // Inicializar bitReader
-        // El reader se debe inicializar para cada registro ya que estas no seran
-        // leias de forma completa (es decir, terminando cada byte)
-        BitReader br = bitReader(fHuffman);
-
-        seek<uchar>(fHuffman, (i * infoSize) + 1);
-
-        uchar c = read<uchar>(fHuffman); // first byte
-        int len = read<uchar>(fHuffman); // second byte
-
-        // reading huf code
-        string bitStr = "";
-        for (int i = 0; i < len; i++)
-        {
-            int bit = bitReaderRead(br);
-            bitStr = bitStr + intToString(bit);
-        }
-
-        // Salida de lecturas
-        cout << c << ", "
-             << "(" << len << "), "
-             << "[" << bitStr << "]" << endl;
-    }
-
-    // Leer ultimo caracter
-    cout << endl;
-    uchar q = read<uchar>(fHuffman);
-    cout << q << endl; // Salida 'Q'
-
-    // Prueba del seek directo al contenido de texto
-    seek<uchar>(fHuffman, 0);
-    seek<uchar>(fHuffman, (reg * (2 + getSize(reg))) + 1);
-
-    q = read<uchar>(fHuffman);
-    cout << q << endl; // Salida 'Q'
-
-    // ************************************************************************************************ //
-
-    // ===================================================================================================================
+    // FUNCIONA HASTA ACA ======================================================================================
 
     // reading original file
     FILE *fOriginal = fopen(formatString(fName), "r+b");

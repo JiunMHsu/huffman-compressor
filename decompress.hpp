@@ -20,26 +20,29 @@ using namespace std;
 typedef unsigned char uchar;
 
 // returns the size in bytes ocuped by the huffman code
-// int getSize(int t)
-// {
-//     int size = 0;
-//     while (size < t / 2)
-//     {
-//         size += 8; // counted in bits
-//     }
-//     return size / 8; // returns byte
-// }
+int getSize(int t)
+{
+    int size = 0;
+    while (size < t / 2)
+    {
+        size += 8; // counted in bits
+    }
+    return size / 8; // returns byte
+}
 
 void buildTable(string fName, string table[])
 {
     FILE *f = fopen(formatString(fName), "r+b");
 
     int t = read<uchar>(f);
-    int infoSize = 2; // + getSize(t);
+    int infoSize = 2 + getSize(t);
     for (int i = 0; i < t; i++)
     {
+        // Se inicializa un reader para cada registro
         BitReader fBr = bitReader(f);
+
         seek<uchar>(f, (i * infoSize) + 1);
+
         uchar c = read<uchar>(f); // first byte
         int len = read<uchar>(f); // second byte
 
@@ -97,7 +100,7 @@ HuffmanTreeInfo *restoreHuffmanTree(string table[])
 void restoreFile(string fName, HuffmanTreeInfo *root)
 {
     // create empty original file
-    string restoredName = substring(fName, 0, lastIndexOf(fName, '.'));
+    string restoredName = "restored-" + substring(fName, 0, lastIndexOf(fName, '.'));
     FILE *fRestored = fopen(formatString(restoredName), "w+b");
 
     // reading compressed file and setting bit reader
@@ -107,7 +110,7 @@ void restoreFile(string fName, HuffmanTreeInfo *root)
     // moving where the content beggins
     int t = read<uchar>(fHuffman);
     // t times info structure (3 bytes): { char, huf code length, huf code }
-    // seek<uchar>(fHuffman, (t * (2 + getSize(t))) + 1); // plus 1 (the fisrt byte)
+    seek<uchar>(fHuffman, (t * (2 + getSize(t))) + 1); // plus 1 (the fisrt byte)
 
     while (!feof(fHuffman))
     {

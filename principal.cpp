@@ -23,39 +23,6 @@
 
 using namespace std;
 
-// * FUNCIONES DE DEPURACION * //
-
-void huffmanTreeToDebug(HuffmanTreeInfo *root)
-{
-	// recorrer el arbol usando TAD HuffmanTree
-	HuffmanTree ht = huffmanTree(root);
-
-	string cod;
-	while (huffmanTreeHasNext(ht))
-	{
-		HuffmanTreeInfo *x = huffmanTreeNext(ht, cod);
-		cout << x->c << ", (" << x->n << "), "
-			  << "[" << cod << "]" << endl;
-	}
-	cout << endl;
-	cout << endl;
-}
-
-void huffmanTableToDebug(HuffmanTable table[])
-{
-	for (int i = 0; i < 256; i++)
-	{
-		if (table[i].n > 0)
-		{
-			cout << (char)i << ": " << table[i].code << endl;
-			cout << "ocurrencias: " << table[i].n << endl;
-			cout << "---------------------------------------" << endl;
-		}
-	}
-}
-
-// ****************** //
-
 void compress(string fName)
 {
 	// contar ocurrencias
@@ -70,14 +37,8 @@ void compress(string fName)
 	// convertir la lista a arbol
 	HuffmanTreeInfo *root = createHuffmanTree(charList);
 
-	// * DEBUGGING
-	huffmanTreeToDebug(root);
-
 	// registrar el codigo hufman en la tabla
 	encode(root, table);
-
-	// * DEBUGGING
-	huffmanTableToDebug(table);
 
 	generateCompressedFile(fName, table);
 }
@@ -85,7 +46,7 @@ void compress(string fName)
 void decompress(string fName)
 {
 	// getting information for the hf tree
-	string table[256]; // check default value (if it's "")
+	string table[256];
 	buildTable(fName, table);
 
 	// restoring the huffman tree
@@ -96,8 +57,8 @@ void decompress(string fName)
 
 int main()
 {
-	string fName = "text.txt";
-	// string fName = "hola.txt.huf";
+	// string fName = "text.txt";
+	string fName = "text.txt.huf";
 
 	if (!endsWith(fName, ".huf"))
 	{
