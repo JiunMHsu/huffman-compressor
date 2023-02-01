@@ -34,8 +34,15 @@ string binToString(unsigned char c)
    return s;
 }
 
+/**
+ * @param BitReader (objeto bitReader) 
+ * @return int (1 o 0 implican bit leido; -1 implica final del archivo)
+ */
 int bitReaderRead(BitReader &br)
 {
+   // early return en caso de fin de archivo
+   if (feof(br.file)) return -1;
+
    if (isEmpty(br.byte))
    {
       uchar ucByte = read<uchar>(br.file);
@@ -43,7 +50,6 @@ int bitReaderRead(BitReader &br)
    }
    char bit = br.byte[0];
    br.byte = removeAt(br.byte, 0);
-
    return (bit == '0') ? 0 : 1;
 }
 

@@ -55,6 +55,22 @@ void decompress(string fName)
 	restoreFile(fName, root);
 }
 
+// funcion para depurar
+// int main()
+// {
+// 	string fName = "gcc-manual.txt.huf";
+
+// 	if (!endsWith(fName, ".huf"))
+// 	{
+// 		compress(fName);
+// 	}
+// 	else
+// 	{
+// 		decompress(fName);
+// 	}
+// 	return 0;
+// }
+
 int main(int argc, char **argv)
 {
 	for (int i = 1; i < argc; i++)

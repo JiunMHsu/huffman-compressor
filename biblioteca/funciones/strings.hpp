@@ -501,8 +501,12 @@ int cmpDouble(double a,double b) // 1.1.1.47
    return n;
 }
 
-// convert string to char array ( *char[] )
-// returns pointer to the array
+/**
+ * @brief funcion conversor de string a array de char ( *char[] )
+ * 
+ * @param string 
+ * @return *char[]
+ */
 char *formatString(string s)
 {
    char *fName = new char[length(s) + 1];

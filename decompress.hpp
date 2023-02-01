@@ -44,7 +44,7 @@ void buildTable(string fName, string table[])
         // posicionamiento directo en el comienzo de cada registro
         seek<uchar>(f, (i * infoSize) + 1);
 
-        // lectura de los primeros dos cmpos
+        // lectura de los primeros dos campos
         uchar c = read<uchar>(f); // primer byte (char)
         int len = read<uchar>(f); // segundo byte (longitud del huf code)
 
@@ -71,28 +71,27 @@ HuffmanTreeInfo *restoreHuffmanTree(string table[])
     // i = ASCII code
     for (int i = 0; i < 256; i++)
     {
-        if (table[i] != "")
+        if (table[i] == "") continue;
+
+        string code = table[i];
+        HuffmanTreeInfo *aux = root;
+
+        for (int n = 0; n < length(code); n++)
         {
-            string code = table[i];
-            HuffmanTreeInfo *aux = root;
-
-            for (int n = 0; n < length(code); n++)
+            if (code[n] == '0')
             {
-                if (code[n] == '0')
-                {
-                    // create if the node isn't created
-                    aux->left = (aux->left == NULL) ? huffmanTreeInfo(256, 0, NULL, NULL) : aux->left;
-                    aux = aux->left;
-                }
-                else // (the '1' case)
-                {
-                    aux->right = (aux->right == NULL) ? huffmanTreeInfo(256, 0, NULL, NULL) : aux->right;
-                    aux = aux->right;
-                }
+                // crea el nodo si no esta creado
+                aux->left = (aux->left == NULL) ? huffmanTreeInfo(256, 0, NULL, NULL) : aux->left;
+                aux = aux->left;
             }
-
-            aux->c = i; // asignar char a la hoja
+            else // (el caso '1')
+            {
+                aux->right = (aux->right == NULL) ? huffmanTreeInfo(256, 0, NULL, NULL) : aux->right;
+                aux = aux->right;
+            }
         }
+
+        aux->c = i; // asignar char a la hoja
     }
 
     return root;
@@ -125,11 +124,12 @@ void restoreFile(string fName, HuffmanTreeInfo *root)
         while (aux->left != NULL || aux->right != NULL)
         {
             bit = bitReaderRead(hufBr);
+            if (bit == -1) break; // manejo de final de archivo
             aux = (bit == 0) ? aux->left : aux->right;
         }
 
         // condicional para evitar el ultimo byte incompleto
-        if (aux->c < 256)
+        if (aux->c > 0 && aux->c < 256)
         {
             write<char>(fRestored, aux->c);
         }

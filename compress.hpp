@@ -52,8 +52,6 @@ void countOccurrences(string fName, HuffmanTable table[])
 // para mismas ocurrencias, ordenar alfabeticamente
 int cmpHtInfo(HuffmanTreeInfo *a, HuffmanTreeInfo *b) // revisar si funca bien
 {
-    // (a->n > b->n) implica compraracion de ocurrencias
-    // (a->n == b->n && a->c > b->c) implica comparacion alfabetica en caso de mismas ocurrencias
     return ((a->n > b->n) || (a->n == b->n && a->c > b->c)) ? 1 : -1;
 }
 
@@ -141,27 +139,28 @@ void generateCompressedFile(string fName, HuffmanTable table[])
 
     for (int i = 0; i < 256; i++)
     {
-        if (table[i].n > 0)
+        if (table[i].n == 0)
         {
-            write<uchar>(fHuffman, (uchar)i);               // registrar el char (ASCII)
-            string hufCode = table[i].code;                 // obtener el codigo huffman
-            write<uchar>(fHuffman, (uchar)length(hufCode)); // registrar la longitud del codigo
-
-            if (length(hufCode) < maxHufCodeLen)
-            {
-                // completa el huf code a la longitud maxima
-                // forzando que todos los codigod tengan la misma longitud
-                // antes de ser grabado por el birWritter
-                hufCode = rpad(hufCode, maxHufCodeLen, '0');
-            }
-
-            for (int n = 0; n < length(hufCode); n++) // registrar el huffman code
-            {
-                char bit = hufCode[n]; // '0' / '1'
-                bitWriterWrite(hufBW, charToInt(bit));
-            }
-            bitWriterFlush(hufBW); // completa el byte para que pueda ser grabado en el archivo
+            continue;
         }
+        write<uchar>(fHuffman, (uchar)i);               // registrar el char (ASCII)
+        string hufCode = table[i].code;                 // obtener el codigo huffman
+        write<uchar>(fHuffman, (uchar)length(hufCode)); // registrar la longitud del codigo
+
+        if (length(hufCode) < maxHufCodeLen)
+        {
+            // completa el huf code a la longitud maxima
+            // forzando que todos los codigod tengan la misma longitud
+            // antes de ser grabado por el birWritter
+            hufCode = rpad(hufCode, maxHufCodeLen, '0');
+        }
+
+        for (int n = 0; n < length(hufCode); n++) // registrar el huffman code
+        {
+            char bit = hufCode[n]; // '0' / '1'
+            bitWriterWrite(hufBW, charToInt(bit));
+        }
+        bitWriterFlush(hufBW); // completa el byte para que pueda ser grabado en el archivo
     }
 
     // leer el archivo a comprimir
