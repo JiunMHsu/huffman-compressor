@@ -43,8 +43,8 @@ void countOccurrences(string fName, HuffmanTable table[])
     fclose(f);
 }
 
-// esta funcion esta desarrollada para ser invocada por dos funciones concretas ( listSort, listOrderedInsert )
-// declara unicamente los casos en donde se debe ordenar ( retorno del valor {1} )
+// los retornos de esta funcion no reflejan la comparacion perse
+// sino que declara unicamente los casos en donde se debe ordenar ( retorno del valor {1} )
 // cualquier otro caso retornara {-1} indiferentemente
 //
 // criterio:

@@ -36,7 +36,7 @@ string binToString(unsigned char c)
 
 /**
  * @param BitReader (objeto bitReader) 
- * @return int (1 o 0 implican bit leido; -1 implica final del archivo)
+ * @return int (1 o 0 implican bit leido // -1 implica final del archivo)
  */
 int bitReaderRead(BitReader &br)
 {

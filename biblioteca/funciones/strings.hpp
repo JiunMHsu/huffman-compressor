@@ -505,7 +505,7 @@ int cmpDouble(double a,double b) // 1.1.1.47
  * @brief funcion conversor de string a array de char ( *char[] )
  * 
  * @param string 
- * @return *char[]
+ * @return *char (puntero al array de chars)
  */
 char *formatString(string s)
 {

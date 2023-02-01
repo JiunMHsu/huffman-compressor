@@ -93,7 +93,7 @@ HuffmanTreeInfo *restoreHuffmanTree(string table[])
 
         aux->c = i; // asignar char a la hoja
     }
-
+    
     return root;
 }
 
