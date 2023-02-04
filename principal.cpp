@@ -74,20 +74,4 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-// funcion para depurar
-// int main()
-// {
-// 	string fName = "gcc-manual.txt.huf";
-
-// 	if (!endsWith(fName, ".huf"))
-// 	{
-// 		compress(fName);
-// 	}
-// 	else
-// 	{
-// 		decompress(fName);
-// 	}
-// 	return 0;
-// }
-
 #endif

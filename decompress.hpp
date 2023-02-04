@@ -131,7 +131,7 @@ void restoreFile(string fName, HuffmanTreeInfo* root)
         // condicional para evitar el ultimo byte incompleto
         if (aux->c > 0 && aux->c < 256)
         {
-            write<char>(fRestored, aux->c);
+            write<uchar>(fRestored, aux->c);
         }
     }
 

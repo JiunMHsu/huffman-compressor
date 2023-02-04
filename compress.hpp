@@ -32,13 +32,13 @@ void tableInit(HuffmanTable table[])
 void countOccurrences(string fName, HuffmanTable table[])
 {
     FILE* f = fopen(formatString(fName), "r+b");
-    char c = read<char>(f);
+    uchar c = read<uchar>(f);
     while (!feof(f))
     {
         int idx = c; // conversion directa de char a int (toma el valor ASCII)
         // usar directamente el char como argumento del campo index resultara en un warning
         table[idx].n += 1;
-        c = read<char>(f);
+        c = read<uchar>(f);
     }
     fclose(f);
 }
