@@ -29,29 +29,28 @@ int mapKeyIndex(Map<K, V> m, K k) // aux function
 {
    for (int i = 0; i < arraySize<K>(m.keys); i++)
    {
-      K *key = arrayGet<K>(m.keys, i);
-      if (*key == k)
-         return i;
+      K* key = arrayGet<K>(m.keys, i);
+      if (*key == k) return i;
    }
    return -1;
 }
 
 template <typename K, typename V>
-V *mapGet(Map<K, V> m, K k) // 1.6.2.3
+V* mapGet(Map<K, V> m, K k) // 1.6.2.3
 {
    int i = mapKeyIndex<K, V>(m, k);
    if (i > -1)
    {
-      V *value = arrayGet<V>(m.values, i);
+      V* value = arrayGet<V>(m.values, i);
       return value;
    }
    return NULL;
 }
 
 template <typename K, typename V>
-V *mapPut(Map<K, V> &m, K k, V v) // 1.6.2.4
+V* mapPut(Map<K, V>& m, K k, V v) // 1.6.2.4
 {
-   V *value = mapGet<K, V>(m, k);
+   V* value = mapGet<K, V>(m, k);
    if (value != NULL)
    {
       *value = v;
@@ -68,15 +67,12 @@ V *mapPut(Map<K, V> &m, K k, V v) // 1.6.2.4
 template <typename K, typename V>
 bool mapContains(Map<K, V> m, K k) // 1.6.2.5
 {
-   if (mapGet<K, V>(m, k) == NULL)
-   {
-      return false;
-   }
+   if (mapGet<K, V>(m, k) == NULL) return false;
    return true;
 }
 
 template <typename K, typename V>
-V mapRemove(Map<K, V> &m, K k) // 1.6.2.6
+V mapRemove(Map<K, V>& m, K k) // 1.6.2.6
 {
    int i = mapKeyIndex<K, V>(m, k);
    arrayRemove<K>(m.keys, i);
@@ -84,7 +80,7 @@ V mapRemove(Map<K, V> &m, K k) // 1.6.2.6
 }
 
 template <typename K, typename V>
-void mapRemoveAll(Map<K, V> &m) // 1.6.2.7
+void mapRemoveAll(Map<K, V>& m) // 1.6.2.7
 {
    arrayRemoveAll<K>(m.keys);
    arrayRemoveAll<V>(m.values);
@@ -104,22 +100,22 @@ bool mapHasNext(Map<K, V> m) // 1.6.2.9
 }
 
 template <typename K, typename V>
-K mapNextKey(Map<K, V> &m) // 1.6.2.10
+K mapNextKey(Map<K, V>& m) // 1.6.2.10
 {
    m.mapIndex++;
-   K *k = arrayGet<K>(m.keys, m.mapIndex);
+   K* k = arrayGet<K>(m.keys, m.mapIndex);
    return *k;
 }
 
 template <typename K, typename V>
-V *mapNextValue(Map<K, V> &m) // 1.6.2.11
+V* mapNextValue(Map<K, V>& m) // 1.6.2.11
 {
    m.mapIndex++;
    return arrayGet<V>(m.values, m.mapIndex);
 }
 
 template <typename K, typename V>
-void mapReset(Map<K, V> &m) // 1.6.2.12
+void mapReset(Map<K, V>& m) // 1.6.2.12
 {
    m.mapIndex = -1;
 }
@@ -127,7 +123,7 @@ void mapReset(Map<K, V> &m) // 1.6.2.12
 // Modificar (simplificar)
 
 template <typename K, typename V>
-void mapSortByKeys(Map<K, V> &m, int cmpKK(K, K)) // 1.6.2.13
+void mapSortByKeys(Map<K, V>& m, int cmpKK(K, K)) // 1.6.2.13
 {
    for (int i = 1; i < mapSize<K, V>(m); i++)
    {
@@ -150,7 +146,7 @@ void mapSortByKeys(Map<K, V> &m, int cmpKK(K, K)) // 1.6.2.13
 }
 
 template <typename K, typename V>
-void mapSortByValues(Map<K, V> &m, int cmpVV(V, V)) // 1.6.2.14
+void mapSortByValues(Map<K, V>& m, int cmpVV(V, V)) // 1.6.2.14
 {
    for (int i = 1; i < mapSize<K, V>(m); i++)
    {

@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 template <typename T>
-void write(FILE *f, T t) // 1.4.1.1
+void write(FILE* f, T t) // 1.4.1.1
 {
    // Se debe anteponer esta linea al inicio de la funcion.
    // De otro modo, apareceran errores al momento de actualizar
@@ -17,7 +17,7 @@ void write(FILE *f, T t) // 1.4.1.1
 }
 
 template <typename T>
-T read(FILE *f) // 1.4.1.2
+T read(FILE* f) // 1.4.1.2
 {
    // Se debe anteponer esta linea al inicio de la funcion.
    // De otro modo, apareceran errores al momento de actualizar
@@ -30,27 +30,26 @@ T read(FILE *f) // 1.4.1.2
 }
 
 template <typename T>
-void seek(FILE *f, int n) // 1.4.1.3
+void seek(FILE* f, int n) // 1.4.1.3
 {
    int tSize = sizeof(T);
    fseek(f, tSize * n, SEEK_SET);
 }
 
 template <typename T>
-int fileSize(FILE *f) // 1.4.1.4
+int fileSize(FILE* f) // 1.4.1.4
 {
    // int curr = ftell(f);
    int i;
    seek<T>(f, 0);
    read<T>(f); // Bucle infinito si se usa solo el '!feof'
-   for (i = 0; !feof(f); i++)
-      read<T>(f);
+   for (i = 0; !feof(f); i++) read<T>(f);
    seek<T>(f, 0);
    return i;
 }
 
 template <typename T>
-int filePos(FILE *f) // 1.4.1.5
+int filePos(FILE* f) // 1.4.1.5
 {
    return ftell(f) / sizeof(T);
 }

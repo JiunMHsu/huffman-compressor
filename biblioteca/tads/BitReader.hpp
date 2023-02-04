@@ -13,13 +13,13 @@ typedef unsigned char uchar;
 
 struct BitReader
 {
-   FILE *file;
+   FILE* file;
    string byte;
 };
 
-BitReader bitReader(FILE *f)
+BitReader bitReader(FILE* f)
 {
-   return {f, ""};
+   return { f, "" };
 }
 
 string binToString(unsigned char c)
@@ -36,9 +36,9 @@ string binToString(unsigned char c)
 
 /**
  * @param BitReader (objeto bitReader) 
- * @return int (1 o 0 implican bit leido // -1 implica final del archivo)
+ * @return int (1 o 0 implican bit leido; -1 implica final del archivo)
  */
-int bitReaderRead(BitReader &br)
+int bitReaderRead(BitReader& br)
 {
    // early return en caso de fin de archivo
    if (feof(br.file)) return -1;

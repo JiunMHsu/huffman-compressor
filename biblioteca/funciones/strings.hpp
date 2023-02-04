@@ -15,7 +15,7 @@ int length(string s) // 1.1.1.1
    return i;
 }
 
-int charCount(string s,char c) // 1.1.1.2
+int charCount(string s, char c) // 1.1.1.2
 {
    int n = 0;
    for (int i = 0; s[i] != '\0'; i++) {
@@ -24,7 +24,7 @@ int charCount(string s,char c) // 1.1.1.2
    return n;
 }
 
-string substring(string s,int d,int h) // 1.1.1.3
+string substring(string s, int d, int h) // 1.1.1.3
 {
    string sbstr;
    if (h > length(s)) return "-1";
@@ -35,37 +35,37 @@ string substring(string s,int d,int h) // 1.1.1.3
    return sbstr;
 }
 
-string substring(string s,int d) // 1.1.1.4
+string substring(string s, int d) // 1.1.1.4
 {
    string a = substring(s, d, length(s));
    return a;
 }
 
-int indexOf(string s,char c,int offSet) // 1.1.1.6
+int indexOf(string s, char c, int offSet) // 1.1.1.6
 {
    int i = offSet;
 
    while ((s[i] != c) && (s[i] != '\0')) {
       i++;
    }
-      
+
    if (s[i] == '\0') return -1;
    return i;
 }
 
-int indexOf(string s,char c) // 1.1.1.5
+int indexOf(string s, char c) // 1.1.1.5
 {
    int i = indexOf(s, c, 0);
    return i;
 }
 
-int indexOf(string s,string toSearch,int offset) // 1.1.1.8
+int indexOf(string s, string toSearch, int offset) // 1.1.1.8
 {
    int lngthTS = length(toSearch);
    int lngthS = length(s);
 
    if (lngthTS > lngthS) return -1;
-   
+
    for (int i = offset; i < lngthS; i++) {
       bool compare = true;
       int indxTS = 0;
@@ -73,23 +73,23 @@ int indexOf(string s,string toSearch,int offset) // 1.1.1.8
 
       while ((compare == true) && (indxTS < lngthTS)) {
          compare = s[indxS] == toSearch[indxTS];
-         indxTS ++;
-         indxS ++;
+         indxTS++;
+         indxS++;
       }
 
       if (toSearch[indxTS - 1] == s[indxS - 1]) return i;
    }
-   
+
    return -1;
 }
 
-int indexOf(string s,string toSearch) // 1.1.1.7
+int indexOf(string s, string toSearch) // 1.1.1.7
 {
    int n = indexOf(s, toSearch, 0);
    return n;
 }
 
-int lastIndexOf(string s,char c) // 1.1.1.9
+int lastIndexOf(string s, char c) // 1.1.1.9
 {
    int lngthS = length(s);
 
@@ -99,11 +99,11 @@ int lastIndexOf(string s,char c) // 1.1.1.9
    return -1;
 }
 
-int indexOfN(string s,char c,int n) // 1.1.1.10
+int indexOfN(string s, char c, int n) // 1.1.1.10
 {
    int a = 0;
    if (n == 0) return -1;
-   
+
    for (int i = 0; i < length(s); i++) {
       if (s[i] == c) a++;
       if (a == n) return i;
@@ -125,9 +125,11 @@ int charToInt(char c) // 1.1.1.11
    // Conversion a valor numerico
    if ((c >= 65) && (c <= 70)) {
       num = c - 55;
-   } else if ((c >= 48) && (c <= 57)) {
+   }
+   else if ((c >= 48) && (c <= 57)) {
       num = c - 48;
-   } else {
+   }
+   else {
       num = -1;
    }
 
@@ -140,9 +142,11 @@ char intToChar(int i) // 1.1.1.12
 
    if ((i >= 0) && (i <= 9)) {
       x = i + 48;
-   } else if ((i >= 10) && (i <= 35)) {
+   }
+   else if ((i >= 10) && (i <= 35)) {
       x = i + 55;
-   } else {
+   }
+   else {
       x = 45;
    }
    return x;
@@ -152,7 +156,7 @@ int digitCount(int n) // 1.1.1.14
 {
    n = abs(n);
    int a = 0;
-   
+
    if (n == 0) return 1;
    for (int i = 1; n > 0; i = i * 10) {
       n = n - (n % i);
@@ -181,7 +185,7 @@ string intToString(int i) // 1.1.1.15
    int placeVal;
 
    // En base a Notacion Posicional
-   for (int a = 0; exp >= 0; exp --) {
+   for (int a = 0; exp >= 0; exp--) {
       placeVal = powr(10, exp);
       a = n / placeVal;
       n = n - (a * placeVal);
@@ -192,7 +196,7 @@ string intToString(int i) // 1.1.1.15
    return str;
 }
 
-int getDigit(int n,int i) // 1.1.1.13
+int getDigit(int n, int i) // 1.1.1.13
 {
    string numStr = intToString(n);
    int indx = (length(numStr) - 1) - i;
@@ -202,7 +206,7 @@ int getDigit(int n,int i) // 1.1.1.13
    return num;
 }
 
-int stringToInt(string s,int b) // 1.1.1.16
+int stringToInt(string s, int b) // 1.1.1.16
 {
    int num = 0;
    int strLenght = length(s);
@@ -212,8 +216,8 @@ int stringToInt(string s,int b) // 1.1.1.16
    for (int i = 0; i < strLenght; i++) {
       char x = s[i];
       int a = charToInt(x);
-      num = num + (a * ( powr(b, exp) ));
-      exp --;
+      num = num + (a * (powr(b, exp)));
+      exp--;
    }
 
    return num;
@@ -253,9 +257,9 @@ string doubleToString(double d) // 1.1.1.21
 double stringToDouble(string s) // 1.1.1.22
 {
    int dotPos = indexOf(s, '.');
-   int integer = stringToInt( substring(s, 0, dotPos) );
-   int decimal = stringToInt( substring(s, dotPos + 1) );
-   
+   int integer = stringToInt(substring(s, 0, dotPos));
+   int decimal = stringToInt(substring(s, dotPos + 1));
+
    double h = powr(10, digitCount(decimal));
 
    double intPart = integer;
@@ -272,13 +276,14 @@ bool isEmpty(string s) // 1.1.1.23
 
    if (length(s) == 0) {
       emptyStr = true;
-   } else {
+   }
+   else {
       emptyStr = false;
    }
    return emptyStr;
 }
 
-bool startsWith(string s,string x) // 1.1.1.24
+bool startsWith(string s, string x) // 1.1.1.24
 {
    for (int i = 0; i < length(x); i++) {
       if (s[i] != x[i]) return false;
@@ -287,41 +292,42 @@ bool startsWith(string s,string x) // 1.1.1.24
    return true;
 }
 
-bool endsWith(string s,string x) // 1.1.1.25
+bool endsWith(string s, string x) // 1.1.1.25
 {
    // Extrae y Compara unicamente la subcadena final con la misma cantidad de caracteres que x
    int indx = length(s) - length(x);
    string strToCompare = substring(s, indx);
-   
+
    // Funcion startsWith usado para verificar igualdad entre cadenas
-   if ( startsWith(strToCompare, x) ) return true;
+   if (startsWith(strToCompare, x)) return true;
 
    return false;
 }
 
-bool contains(string s,char c) // 1.1.1.26
+bool contains(string s, char c) // 1.1.1.26
 {
    for (int i = 0; i < length(s); i++) {
-      if (s[i] == c) return true; 
+      if (s[i] == c) return true;
    }
    return false;
 }
 
-string replace(string s,char oldChar,char newChar) // 1.1.1.27
+string replace(string s, char oldChar, char newChar) // 1.1.1.27
 {
    string newStr = "";
 
    for (int i = 0; i < length(s); i++) {
-      if ( s[i] == oldChar) {
+      if (s[i] == oldChar) {
          newStr = newStr + newChar;
-      } else {
+      }
+      else {
          newStr = newStr + s[i];
       }
    }
    return newStr;
 }
 
-string insertAt(string s,int pos,char c) // 1.1.1.28
+string insertAt(string s, int pos, char c) // 1.1.1.28
 {
    string strPt1 = substring(s, 0, pos);
    string strPt2 = substring(s, pos);
@@ -331,7 +337,7 @@ string insertAt(string s,int pos,char c) // 1.1.1.28
    return newStr;
 }
 
-string removeAt(string s,int pos) // 1.1.1.29
+string removeAt(string s, int pos) // 1.1.1.29
 {
    string strPt1 = substring(s, 0, pos);
    string strPt2 = substring(s, pos + 1);
@@ -345,8 +351,8 @@ string ltrim(string s) // 1.1.1.30
 {
    int i;
    for (i = 0; s[i] == 32; i++);
-   string newStr = substring(s, i); 
-   
+   string newStr = substring(s, i);
+
    return newStr;
 }
 
@@ -356,7 +362,7 @@ string rtrim(string s) // 1.1.1.31
    for (i = length(s) - 1; s[i] == 32; i--);
    string newStr = substring(s, 0, i + 1);
    // (i + 1) por que la funcion no incluye a esa posicion
-   
+
    return newStr;
 }
 
@@ -365,11 +371,11 @@ string trim(string s) // 1.1.1.32
    string str;
    str = ltrim(s);
    str = rtrim(str);
-   
+
    return str;
 }
 
-string replicate(char c,int n) // 1.1.1.33
+string replicate(char c, int n) // 1.1.1.33
 {
    string str = "";
 
@@ -385,7 +391,7 @@ string spaces(int n) // 1.1.1.34
    return str;
 }
 
-string lpad(string s,int n,char c) // 1.1.1.35
+string lpad(string s, int n, char c) // 1.1.1.35
 {
    int a = n - length(s);
    string str = replicate(c, a) + s;
@@ -393,7 +399,7 @@ string lpad(string s,int n,char c) // 1.1.1.35
    return str;
 }
 
-string rpad(string s,int n,char c) // 1.1.1.36
+string rpad(string s, int n, char c) // 1.1.1.36
 {
    int a = n - length(s);
    string str = s + replicate(c, a);
@@ -401,15 +407,16 @@ string rpad(string s,int n,char c) // 1.1.1.36
    return str;
 }
 
-string cpad(string s,int n,char c) // 1.1.1.37
+string cpad(string s, int n, char c) // 1.1.1.37
 {
    int a = n - length(s);
    string str = "";
-   
+
    int h = a / 2;
    if ((a % 2) == 0) {
       str = replicate(c, h) + s + replicate(c, h);
-   } else {
+   }
+   else {
       // El caracter que se omite haciendo la division de un impar entre 2
       // se complementa sumando directamente a la parte izquierda
       str = replicate(c, h) + c + s + replicate(c, h);
@@ -466,7 +473,8 @@ string toUpperCase(string s) // 1.1.1.44
       char c = s[i];
       if (isLowerCase(c)) {
          str = str + toUpperCase(c);
-      } else {
+      }
+      else {
          str = str + c;
       }
    }
@@ -481,21 +489,22 @@ string toLowerCase(string s) // 1.1.1.45
       char c = s[i];
       if (isUpperCase(c)) {
          str = str + toLowerCase(c);
-      } else {
+      }
+      else {
          str = str + c;
       }
    }
    return str;
 }
 
-int cmpString(string a,string b) // 1.1.1.46
+int cmpString(string a, string b) // 1.1.1.46
 {
    if (a > b) return 1;
    if (a < b) return -1;
    return 0;
 }
 
-int cmpDouble(double a,double b) // 1.1.1.47
+int cmpDouble(double a, double b) // 1.1.1.47
 {
    double n = a - b;
    return n;
@@ -505,11 +514,11 @@ int cmpDouble(double a,double b) // 1.1.1.47
  * @brief funcion conversor de string a array de char ( *char[] )
  * 
  * @param string 
- * @return *char (puntero al array de chars)
+ * @return *char[]
  */
-char *formatString(string s)
+char* formatString(string s)
 {
-   char *fName = new char[length(s) + 1];
+   char* fName = new char[length(s) + 1];
    for (int i = 0; i < length(s); i++)
    {
       fName[i] = s[i];

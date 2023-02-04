@@ -10,8 +10,8 @@ using namespace std;
 template <typename T>
 struct List // 1.7.4.1
 {
-   Node<T> *first;
-   Node<T> *aux;
+   Node<T>* first;
+   Node<T>* aux;
    int size;
 };
 
@@ -26,23 +26,23 @@ List<T> list() // 1.7.4.2
 }
 
 template <typename T>
-T *listAdd(List<T> &lst, T e) // 1.7.4.3
+T* listAdd(List<T>& lst, T e) // 1.7.4.3
 {
-   Node<T> *node = add<T>(lst.first, e);
+   Node<T>* node = add<T>(lst.first, e);
    lst.size++;
    return &(node->data);
 }
 
 template <typename T>
-T *listAddFirst(List<T> &lst, T e) // 1.7.4.4
+T* listAddFirst(List<T>& lst, T e) // 1.7.4.4
 {
-   Node<T> *node = addFirst<T>(lst.first, e);
+   Node<T>* node = addFirst<T>(lst.first, e);
    lst.size++;
    return &(node->data);
 }
 
 template <typename T, typename K>
-T listRemove(List<T> &lst, K k, int cmpTK(T, K)) // 1.7.4.5
+T listRemove(List<T>& lst, K k, int cmpTK(T, K)) // 1.7.4.5
 {
    T t = remove<T, K>(lst.first, k, cmpTK);
    lst.size--;
@@ -50,7 +50,7 @@ T listRemove(List<T> &lst, K k, int cmpTK(T, K)) // 1.7.4.5
 }
 
 template <typename T>
-T listRemoveFirst(List<T> &lst) // 1.7.4.6
+T listRemoveFirst(List<T>& lst) // 1.7.4.6
 {
    T t = removeFirst<T>(lst.first);
    lst.size--;
@@ -58,9 +58,9 @@ T listRemoveFirst(List<T> &lst) // 1.7.4.6
 }
 
 template <typename T, typename K>
-T *listFind(List<T> lst, K k, int cmpTK(T, K)) // 1.7.4.7
+T* listFind(List<T> lst, K k, int cmpTK(T, K)) // 1.7.4.7
 {
-   Node<T> *node = find<T, K>(lst.first, k, cmpTK);
+   Node<T>* node = find<T, K>(lst.first, k, cmpTK);
    return &(node->data);
 }
 
@@ -77,28 +77,28 @@ int listSize(List<T> lst) // 1.7.4.9
 }
 
 template <typename T>
-void listFree(List<T> &lst) // 1.7.4.10
+void listFree(List<T>& lst) // 1.7.4.10
 {
    free<T>(lst.first);
    lst.size = 0;
 }
 
 template <typename T>
-T *listOrderedInsert(List<T> &lst, T t, int cmpTT(T, T)) // 1.7.4.11
+T* listOrderedInsert(List<T>& lst, T t, int cmpTT(T, T)) // 1.7.4.11
 {
-   Node<T> *node = orderedInsert<T>(lst.first, t, cmpTT);
+   Node<T>* node = orderedInsert<T>(lst.first, t, cmpTT);
    lst.size++;
    return &(node->data);
 }
 
 template <typename T>
-void listSort(List<T> &lst, int cmpTT(T, T)) // 1.7.4.12
+void listSort(List<T>& lst, int cmpTT(T, T)) // 1.7.4.12
 {
    sort<T>(lst.first, cmpTT);
 }
 
 template <typename T>
-void listReset(List<T> &lst) // 1.7.4.13
+void listReset(List<T>& lst) // 1.7.4.13
 {
    lst.aux = new Node<T>;
    lst.aux->next = lst.first;
@@ -111,16 +111,16 @@ bool listHasNext(List<T> lst) // 1.7.4.13
 }
 
 template <typename T>
-T *listNext(List<T> &lst) // 1.7.4.14
+T* listNext(List<T>& lst) // 1.7.4.14
 {
    lst.aux = lst.aux->next;
    return &(lst.aux->data);
 }
 
 template <typename T>
-T *listNext(List<T> &lst, bool &endOfList) // 1.7.4.15
+T* listNext(List<T>& lst, bool& endOfList) // 1.7.4.15
 {
-   T *t = listNext<T>(lst);
+   T* t = listNext<T>(lst);
    endOfList = (listHasNext<T>(lst)) ? false : true;
    return t;
 }

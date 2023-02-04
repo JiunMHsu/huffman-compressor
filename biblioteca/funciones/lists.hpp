@@ -9,15 +9,15 @@ template <typename T>
 struct Node // 1.7.1.1
 {
    T data;
-   Node<T> *next;
+   Node<T>* next;
    // puntero tipo Node porque apunta a otro nodo
    // y no a la informacion
 };
 
 template <typename T>
-Node<T> *add(Node<T> *&p, T e) // 1.7.1.2
+Node<T>* add(Node<T>*& p, T e) // 1.7.1.2
 {
-   Node<T> *n = new Node<T>;
+   Node<T>* n = new Node<T>;
    n->data = e;
    n->next = NULL;
 
@@ -29,7 +29,7 @@ Node<T> *add(Node<T> *&p, T e) // 1.7.1.2
    else
    {
       // si la lista ya existe, agregar como ultimo
-      Node<T> *lastNode = p;
+      Node<T>* lastNode = p;
       while (lastNode->next != NULL)
       {
          lastNode = lastNode->next;
@@ -40,9 +40,9 @@ Node<T> *add(Node<T> *&p, T e) // 1.7.1.2
 }
 
 template <typename T>
-Node<T> *addFirst(Node<T> *&p, T e) // 1.7.1.3
+Node<T>* addFirst(Node<T>*& p, T e) // 1.7.1.3
 {
-   Node<T> *n = new Node<T>;
+   Node<T>* n = new Node<T>;
    n->data = e;
    // apuntar 'next' a la lista ya creada
    // en caso de ser primer nodo agregado, p sera NULL
@@ -53,17 +53,17 @@ Node<T> *addFirst(Node<T> *&p, T e) // 1.7.1.3
 }
 
 template <typename T>
-T removeFirst(Node<T> *&p) // 1.7.1.5
+T removeFirst(Node<T>*& p) // 1.7.1.5
 {
    T t = p->data;
-   Node<T> *node = p->next; // obtener segundo nodo
+   Node<T>* node = p->next; // obtener segundo nodo
    delete p;
    p = node; // asignar el segundo nodo como el primero
    return t;
 }
 
 template <typename T, typename K>
-T remove(Node<T> *&p, K k, int cmpTK(T, K)) // 1.7.1.4
+T remove(Node<T>*& p, K k, int cmpTK(T, K)) // 1.7.1.4
 {
    T t;
 
@@ -73,8 +73,8 @@ T remove(Node<T> *&p, K k, int cmpTK(T, K)) // 1.7.1.4
    }
    else
    {
-      Node<T> *aux = p;
-      Node<T> *prev = NULL;
+      Node<T>* aux = p;
+      Node<T>* prev = NULL;
 
       while (aux != NULL && cmpTK(aux->data, k) != 0)
       {
@@ -91,24 +91,21 @@ T remove(Node<T> *&p, K k, int cmpTK(T, K)) // 1.7.1.4
 }
 
 template <typename T, typename K>
-Node<T> *find(Node<T> *p, K k, int cmpTK(T, K)) // 1.7.1.6
+Node<T>* find(Node<T>* p, K k, int cmpTK(T, K)) // 1.7.1.6
 {
-   Node<T> *node = p;
+   Node<T>* node = p;
    while (node != NULL)
    {
-      if (cmpTK(node->data, k) == 0)
-      {
-         return node;
-      }
+      if (cmpTK(node->data, k) == 0) return node;
       node = node->next;
    }
    return NULL;
 }
 
 template <typename T>
-Node<T> *orderedInsert(Node<T> *&p, T e, int cmpTT(T, T)) // 1.7.1.7
+Node<T>* orderedInsert(Node<T>*& p, T e, int cmpTT(T, T)) // 1.7.1.7
 {
-   Node<T> *n = new Node<T>;
+   Node<T>* n = new Node<T>;
 
    // orden creciente (menor a mayor)
    // primera condicion:
@@ -119,8 +116,8 @@ Node<T> *orderedInsert(Node<T> *&p, T e, int cmpTT(T, T)) // 1.7.1.7
    }
    else
    {
-      Node<T> *aux = p;
-      Node<T> *prev = NULL;
+      Node<T>* aux = p;
+      Node<T>* prev = NULL;
 
       while (aux != NULL && cmpTT(aux->data, e) < 0)
       {
@@ -137,9 +134,9 @@ Node<T> *orderedInsert(Node<T> *&p, T e, int cmpTT(T, T)) // 1.7.1.7
 }
 
 template <typename T>
-Node<T> *searchAndInsert(Node<T> *&p, T e, bool &enc, int cmpTT(T, T)) // 1.7.1.8
+Node<T>* searchAndInsert(Node<T>*& p, T e, bool& enc, int cmpTT(T, T)) // 1.7.1.8
 {
-   Node<T> *node = find<T, T>(p, e, cmpTT);
+   Node<T>* node = find<T, T>(p, e, cmpTT);
    enc = (node != NULL) ? true : false;
    // enc = node != NULL;
    if (!enc)
@@ -150,10 +147,10 @@ Node<T> *searchAndInsert(Node<T> *&p, T e, bool &enc, int cmpTT(T, T)) // 1.7.1.
 }
 
 template <typename T>
-void sort(Node<T> *&p, int cmpTT(T, T)) // 1.7.1.9
+void sort(Node<T>*& p, int cmpTT(T, T)) // 1.7.1.9
 {
-   Node<T> *nodeA = p;           // primer node
-   Node<T> *nodeB = nodeA->next; // segundo node
+   Node<T>* nodeA = p;           // primer node
+   Node<T>* nodeB = nodeA->next; // segundo node
 
    while (nodeB != NULL)
    {
@@ -174,13 +171,13 @@ void sort(Node<T> *&p, int cmpTT(T, T)) // 1.7.1.9
 }
 
 template <typename T>
-bool isEmpty(Node<T> *p) // 1.7.1.10
+bool isEmpty(Node<T>* p) // 1.7.1.10
 {
    return p == NULL;
 }
 
 template <typename T>
-void free(Node<T> *&p) // 1.7.1.11
+void free(Node<T>*& p) // 1.7.1.11
 {
    while (p != NULL)
    {
@@ -191,13 +188,13 @@ void free(Node<T> *&p) // 1.7.1.11
 // ========== Extension (Stack) ==========
 
 template <typename T>
-Node<T> *push(Node<T> *&p, T e) // 1.7.2.1
+Node<T>* push(Node<T>*& p, T e) // 1.7.2.1
 {
    return addFirst<T>(p, e);
 }
 
 template <typename T>
-T pop(Node<T> *&p) // 1.7.2.2
+T pop(Node<T>*& p) // 1.7.2.2
 {
    return removeFirst<T>(p);
 }
@@ -205,7 +202,7 @@ T pop(Node<T> *&p) // 1.7.2.2
 // ========== Extension (Queue) ==========
 
 template <typename T>
-Node<T> *enqueue(Node<T> *&p, Node<T> *&q, T e) // 1.7.3.1
+Node<T>* enqueue(Node<T>*& p, Node<T>*& q, T e) // 1.7.3.1
 {
    q = add<T>(p, e);
    return q;
@@ -213,20 +210,20 @@ Node<T> *enqueue(Node<T> *&p, Node<T> *&q, T e) // 1.7.3.1
 
 // revisar
 template <typename T>
-Node<T> *enqueue(Node<T> *&q, T e) // 1.7.3.2
+Node<T>* enqueue(Node<T>*& q, T e) // 1.7.3.2
 {
    q = add<T>(q, e);
    return q;
 }
 
 template <typename T>
-T dequeue(Node<T> *&p, Node<T> *&q) // 1.7.3.3
+T dequeue(Node<T>*& p, Node<T>*& q) // 1.7.3.3
 {
    return removeFirst<T>(p);
 }
 
 template <typename T>
-T dequeue(Node<T> *&q) // 1.7.3.4
+T dequeue(Node<T>*& q) // 1.7.3.4
 {
    T t;
    return t;

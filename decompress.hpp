@@ -32,7 +32,7 @@ int getSize(int t)
 
 void buildTable(string fName, string table[])
 {
-    FILE *f = fopen(formatString(fName), "r+b");
+    FILE* f = fopen(formatString(fName), "r+b");
 
     int t = read<uchar>(f);
     int infoSize = 2 + getSize(t);
@@ -62,10 +62,10 @@ void buildTable(string fName, string table[])
 }
 
 // reconstruir el arbol huffman
-HuffmanTreeInfo *restoreHuffmanTree(string table[])
+HuffmanTreeInfo* restoreHuffmanTree(string table[])
 {
     // crear primer nodo (raiz)
-    HuffmanTreeInfo *root = new HuffmanTreeInfo();
+    HuffmanTreeInfo* root = new HuffmanTreeInfo();
     root = huffmanTreeInfo(256, 0, NULL, NULL);
 
     // i = ASCII code
@@ -74,7 +74,7 @@ HuffmanTreeInfo *restoreHuffmanTree(string table[])
         if (table[i] == "") continue;
 
         string code = table[i];
-        HuffmanTreeInfo *aux = root;
+        HuffmanTreeInfo* aux = root;
 
         for (int n = 0; n < length(code); n++)
         {
@@ -93,18 +93,18 @@ HuffmanTreeInfo *restoreHuffmanTree(string table[])
 
         aux->c = i; // asignar char a la hoja
     }
-    
+
     return root;
 }
 
-void restoreFile(string fName, HuffmanTreeInfo *root)
+void restoreFile(string fName, HuffmanTreeInfo* root)
 {
     // crear archivo 'restaurado' vacio
     string restoredName = "restored-" + substring(fName, 0, lastIndexOf(fName, '.'));
-    FILE *fRestored = fopen(formatString(restoredName), "w+b");
+    FILE* fRestored = fopen(formatString(restoredName), "w+b");
 
     // abrir archivo comprimido e inicializar el bit reader
-    FILE *fHuffman = fopen(formatString(fName), "r+b");
+    FILE* fHuffman = fopen(formatString(fName), "r+b");
     BitReader hufBr = bitReader(fHuffman);
 
     // posicionar al comienzo del contenido comprimido
@@ -114,7 +114,7 @@ void restoreFile(string fName, HuffmanTreeInfo *root)
 
     while (!feof(fHuffman))
     {
-        HuffmanTreeInfo *aux = root;
+        HuffmanTreeInfo* aux = root;
         int bit;
 
         // moverse en el arbol segun el bit obtenido
@@ -131,7 +131,7 @@ void restoreFile(string fName, HuffmanTreeInfo *root)
         // condicional para evitar el ultimo byte incompleto
         if (aux->c > 0 && aux->c < 256)
         {
-            write<char>(fRestored, aux->c);
+            write<uchar>(fRestored, aux->c);
         }
     }
 

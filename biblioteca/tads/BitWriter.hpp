@@ -13,16 +13,16 @@ typedef unsigned char uchar;
 
 struct BitWriter
 {
-   FILE *file;
+   FILE* file;
    string byte;
 };
 
-BitWriter bitWriter(FILE *f)
+BitWriter bitWriter(FILE* f)
 {
-   return {f, ""};
+   return { f, "" };
 }
 
-void bitWriterWrite(BitWriter &bw, int bit)
+void bitWriterWrite(BitWriter& bw, int bit)
 {
    bw.byte += charToString(intToChar(bit));
 
@@ -32,12 +32,12 @@ void bitWriterWrite(BitWriter &bw, int bit)
       uchar ucByte = (uchar)byte;
 
       write<uchar>(bw.file, ucByte);
-      
+
       bw.byte = "";
    }
 }
 
-void bitWriterFlush(BitWriter &bw)
+void bitWriterFlush(BitWriter& bw)
 {
    if (length(bw.byte) < 8 && length(bw.byte) > 0)
    {

@@ -5,7 +5,7 @@
 #include <iostream>
 
 template <typename T>
-int add(T arr[], int &len, T e) // 1.5.1.1
+int add(T arr[], int& len, T e) // 1.5.1.1
 {
    arr[len] = e;
    len++;
@@ -13,7 +13,7 @@ int add(T arr[], int &len, T e) // 1.5.1.1
 }
 
 template <typename T>
-void insert(T arr[], int &len, T e, int p) // 1.5.1.2
+void insert(T arr[], int& len, T e, int p) // 1.5.1.2
 {
    for (int i = len; i > p; i--)
    {
@@ -24,7 +24,7 @@ void insert(T arr[], int &len, T e, int p) // 1.5.1.2
 }
 
 template <typename T>
-T remove(T arr[], int &len, int p) // 1.5.1.3
+T remove(T arr[], int& len, int p) // 1.5.1.3
 {
    T ret = arr[p];
    for (int i = p; i < len; i++)
@@ -41,14 +41,13 @@ int find(T arr[], int len, K k, int cmpTK(T, K)) // 1.5.1.4
    for (int i = 0; i < len; i++)
    {
       T t = arr[i];
-      if (cmpTK(t, k) == 0)
-         return i;
+      if (cmpTK(t, k) == 0) return i;
    }
    return -1;
 }
 
 template <typename T>
-int orderedInsert(T arr[], int &len, T e, int cmpTT(T, T)) // 1.5.1.5
+int orderedInsert(T arr[], int& len, T e, int cmpTT(T, T)) // 1.5.1.5
 {
    int i = 0;
    while (cmpTT(arr[i], e) <= 0 && i < len)
