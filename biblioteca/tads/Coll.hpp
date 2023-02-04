@@ -41,19 +41,19 @@ int collSize(Coll<T> c)
 }
 
 template <typename T> // 1.3.2.5
-void collRemoveAll(Coll<T> &c)
+void collRemoveAll(Coll<T>& c)
 {
    c.s = "";
 }
 
 template <typename T> // 1.3.2.6
-void collRemoveAt(Coll<T> &c, int p)
+void collRemoveAt(Coll<T>& c, int p)
 {
    removeTokenAt(c.s, c.sep, p);
 }
 
 template <typename T> // 1.3.2.7
-int collAdd(Coll<T> &c, T t, string tToString(T))
+int collAdd(Coll<T>& c, T t, string tToString(T))
 {
    string str = tToString(t);
    addToken(c.s, c.sep, str);
@@ -61,7 +61,7 @@ int collAdd(Coll<T> &c, T t, string tToString(T))
 }
 
 template <typename T> // 1.3.2.8
-void collSetAt(Coll<T> &c, T t, int p, string tToString(T))
+void collSetAt(Coll<T>& c, T t, int p, string tToString(T))
 {
    string str = tToString(t);
    setTokenAt(c.s, c.sep, str, p);
@@ -81,14 +81,13 @@ int collFind(Coll<T> c, K k, int cmpTK(T, K), T tFromString(string))
    for (int i = 0; i < collSize(c); i++)
    {
       T t = collGetAt<T>(c, i, tFromString);
-      if (cmpTK(t, k) == 0)
-         return i;
+      if (cmpTK(t, k) == 0) return i;
    }
    return -1;
 }
 
 template <typename T> // 1.3.2.11
-void collSort(Coll<T> &c, int cmpTT(T, T), T tFromString(string), string tToString(T))
+void collSort(Coll<T>& c, int cmpTT(T, T), T tFromString(string), string tToString(T))
 {
    int i = 0;
    // Se itera hasta el anteultimo elemnto ya que se lo copmpara con el ultimo
@@ -113,13 +112,12 @@ bool collHasNext(Coll<T> c)
 {
    // Funcional unicamente despues de aplicar collReset
    int next = c.tokenIndx + 1;
-   if (next < tokenCount(c.s, c.sep))
-      return true;
+   if (next < tokenCount(c.s, c.sep))  return true;
    return false;
 }
 
 template <typename T> // 1.3.2.13
-T collNext(Coll<T> &c, T tFromString(string))
+T collNext(Coll<T>& c, T tFromString(string))
 {
    // Nunca muestra el primer elemento (?
    c.tokenIndx++;
@@ -128,7 +126,7 @@ T collNext(Coll<T> &c, T tFromString(string))
 }
 
 template <typename T> // 1.3.2.14
-T collNext(Coll<T> &c, bool &endOfColl, T tFromString(string))
+T collNext(Coll<T>& c, bool& endOfColl, T tFromString(string))
 {
    if (collHasNext(c))
    {
@@ -143,7 +141,7 @@ T collNext(Coll<T> &c, bool &endOfColl, T tFromString(string))
 }
 
 template <typename T> // 1.3.2.15
-void collReset(Coll<T> &c)
+void collReset(Coll<T>& c)
 {
    // c.tokrnIndx = 0;
    c.tokenIndx = -1;

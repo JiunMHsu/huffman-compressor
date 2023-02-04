@@ -19,7 +19,7 @@ Queue<T> queue()
 }
 
 template<typename T>
-T* queueEnqueue(Queue<T>& q,T e)
+T* queueEnqueue(Queue<T>& q, T e)
 {
    return NULL;
 }

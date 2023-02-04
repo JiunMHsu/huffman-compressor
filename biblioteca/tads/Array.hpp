@@ -11,7 +11,7 @@ using namespace std;
 template <typename T>
 struct Array // 1.6.1.1
 {
-   T *arr;
+   T* arr;
    int len;
    int size;
 };
@@ -27,10 +27,10 @@ Array<T> array() // 1.6.1.2
 }
 
 template <typename T>
-T *arrayResize(Array<T> &a)
+T* arrayResize(Array<T>& a)
 {
    a.size *= 2;
-   T *arr = new T[a.size];
+   T* arr = new T[a.size];
    for (int i = 0; i < a.len; i++)
    {
       arr[i] = a.arr[i];
@@ -40,7 +40,7 @@ T *arrayResize(Array<T> &a)
 }
 
 template <typename T>
-int arrayAdd(Array<T> &a, T t) // 1.6.1.3
+int arrayAdd(Array<T>& a, T t) // 1.6.1.3
 {
    if (a.len == a.size)
    {
@@ -50,21 +50,21 @@ int arrayAdd(Array<T> &a, T t) // 1.6.1.3
 }
 
 template <typename T>
-T *arrayGet(Array<T> a, int p) // 1.6.1.4
+T* arrayGet(Array<T> a, int p) // 1.6.1.4
 {
    // T *item = &(a.arr[p]);
    return &(a.arr[p]);
 }
 
 template <typename T>
-void arraySet(Array<T> &a, int p, T t) // 1.6.1.5
+void arraySet(Array<T>& a, int p, T t) // 1.6.1.5
 {
-   T *item = arrayGet<T>(a, p);
+   T* item = arrayGet<T>(a, p);
    *item = t;
 }
 
 template <typename T>
-void arrayInsert(Array<T> &a, T t, int p) // 1.6.1.6
+void arrayInsert(Array<T>& a, T t, int p) // 1.6.1.6
 {
    if (a.len == a.size)
    {
@@ -80,16 +80,16 @@ int arraySize(Array<T> a) // 1.6.1.7
 }
 
 template <typename T>
-T arrayRemove(Array<T> &a, int p) // 1.6.1.8
+T arrayRemove(Array<T>& a, int p) // 1.6.1.8
 {
    T removed = remove<T>(a.arr, a.len, p);
    return removed;
 }
 
 template <typename T>
-void arrayRemoveAll(Array<T> &a) // 1.6.1.9
+void arrayRemoveAll(Array<T>& a) // 1.6.1.9
 {
-   T *arr = new T[a.size];
+   T* arr = new T[a.size];
    delete a.arr;
    a.len = 0;
    a.arr = arr;
@@ -102,7 +102,7 @@ int arrayFind(Array<T> a, K k, int cmpTK(T, K)) // 1.6.1.10
 }
 
 template <typename T>
-int arrayOrderedInsert(Array<T> &a, T t, int cmpTT(T, T)) // 1.6.1.11
+int arrayOrderedInsert(Array<T>& a, T t, int cmpTT(T, T)) // 1.6.1.11
 {
    if (a.len == a.size)
    {
@@ -112,7 +112,7 @@ int arrayOrderedInsert(Array<T> &a, T t, int cmpTT(T, T)) // 1.6.1.11
 }
 
 template <typename T>
-void arraySort(Array<T> &a, int cmpTT(T, T)) // 1.6.1.12
+void arraySort(Array<T>& a, int cmpTT(T, T)) // 1.6.1.12
 {
    sort<T>(a.arr, a.len, cmpTT);
 }

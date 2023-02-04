@@ -31,11 +31,11 @@ void compress(string fName)
 	countOccurrences(fName, table);
 
 	// crear lista de chars
-	List<HuffmanTreeInfo *> charList = list<HuffmanTreeInfo *>();
+	List<HuffmanTreeInfo*> charList = list<HuffmanTreeInfo*>();
 	createCharList(charList, table);
 
 	// convertir la lista a arbol
-	HuffmanTreeInfo *root = createHuffmanTree(charList);
+	HuffmanTreeInfo* root = createHuffmanTree(charList);
 
 	// registrar el codigo hufman en la tabla
 	encode(root, table);
@@ -50,28 +50,12 @@ void decompress(string fName)
 	buildTable(fName, table);
 
 	// reconstruir el arbol huffman
-	HuffmanTreeInfo *root = restoreHuffmanTree(table);
+	HuffmanTreeInfo* root = restoreHuffmanTree(table);
 
 	restoreFile(fName, root);
 }
 
-// funcion para depurar
-// int main()
-// {
-// 	string fName = "gcc-manual.txt.huf";
-
-// 	if (!endsWith(fName, ".huf"))
-// 	{
-// 		compress(fName);
-// 	}
-// 	else
-// 	{
-// 		decompress(fName);
-// 	}
-// 	return 0;
-// }
-
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
 	for (int i = 1; i < argc; i++)
 	{
@@ -89,5 +73,21 @@ int main(int argc, char **argv)
 
 	return 0;
 }
+
+// funcion para depurar
+// int main()
+// {
+// 	string fName = "gcc-manual.txt.huf";
+
+// 	if (!endsWith(fName, ".huf"))
+// 	{
+// 		compress(fName);
+// 	}
+// 	else
+// 	{
+// 		decompress(fName);
+// 	}
+// 	return 0;
+// }
 
 #endif
