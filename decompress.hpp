@@ -109,10 +109,13 @@ void restoreFile(string fName, HuffmanTreeInfo* root)
 
     // posicionar al comienzo del contenido comprimido
     int t = read<uchar>(fHuffman);
+
+    // lectura de la longitud registrada (archivo orginal)
     // t veces el tamanio de los registros, mas 1 que es el primer byte
     seek<uchar>(fHuffman, (t * (2 + getSize(t))) + 1);
+    unsigned int originalFLenght = read<unsigned int>(fHuffman);
 
-    while (!feof(fHuffman))
+    while (originalFLenght > 0)
     {
         HuffmanTreeInfo* aux = root;
         int bit;
@@ -132,6 +135,7 @@ void restoreFile(string fName, HuffmanTreeInfo* root)
         if (aux->c > 0 && aux->c < 256)
         {
             write<uchar>(fRestored, aux->c);
+            originalFLenght--;
         }
     }
 

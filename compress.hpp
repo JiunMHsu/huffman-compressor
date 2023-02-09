@@ -133,14 +133,16 @@ void generateCompressedFile(string fName, HuffmanTable table[])
 
     // estructura de los registros INFO
     // { char, huf code length, huf code }
-    // longitud maxima del condigo huffman es la mited del total de chars
+    // longitud maxima del condigo huffman es la mitad del total de chars
 
     int maxHufCodeLen = ((t % 2) == 0) ? t / 2 : (t + 1) / 2;
+    unsigned int fileLenght = 0;
 
     for (int i = 0; i < 256; i++)
     {
         if (table[i].n == 0) continue;
 
+        fileLenght += table[i].n;                       // conteo de la longitud total del archivio
         write<uchar>(fHuffman, (uchar)i);               // registrar el char (ASCII)
         string hufCode = table[i].code;                 // obtener el codigo huffman
         write<uchar>(fHuffman, (uchar)length(hufCode)); // registrar la longitud del codigo
@@ -160,6 +162,9 @@ void generateCompressedFile(string fName, HuffmanTable table[])
         }
         bitWriterFlush(hufBW); // completa el byte para que pueda ser grabado en el archivo
     }
+
+    // registro de la longitud del archivo original (4 bytes)
+    write<unsigned int>(fHuffman, fileLenght);
 
     // leer el archivo a comprimir
     FILE* fOriginal = fopen(formatString(fName), "r+b");
