@@ -27,7 +27,7 @@ void compress(string fName)
 {
 	// contar ocurrencias
 	HuffmanTable table[256];
-	tableInit(table); // ver si es necesario
+	tableInit(table);
 	countOccurrences(fName, table);
 
 	// crear lista de chars
