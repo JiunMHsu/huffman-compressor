@@ -20,4 +20,5 @@ El Algoritmo de Huffman hace uso de un árbol binario para codificar los caracte
 * Conversión de la lista a árbol binario.
 * Codificación de los caracteres. Se iterará el árbol huffman y se registrará el código en la tabla (campo string). *La iteración del árbol binario y la lógica del algoritmo se encuentra fuera del alcance del presente proyecto*
 * Generar el archivo comprimido. El archivo comprimido contará con la estensión '.huf' y la siguiente extructura:
+</br>
 [ t (1 byte) ] [ char (1 byte) | longitud del código huffman (1 byte) | código huffman (n bytes) ] [ longitud del archivo original (4 bytes) ] [ texto codificado (m bytes) ].
