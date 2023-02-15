@@ -22,3 +22,5 @@ El Algoritmo de Huffman hace uso de un árbol binario para codificar los caracte
 * Generar el archivo comprimido. El archivo comprimido contará con la extensión '.huf' y una determinada estructura.
 
 ### Flujo del Proceso de Descompresión
+
+### Especicicación de Funciones
