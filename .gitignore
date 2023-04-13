@@ -1,13 +1,4 @@
 principal
 principal.exe
-text.txt
-text.txt.huf
-restored-text.txt
-hola.txt
-hola.txt.huf
-a.txt
-a.txt.huf
-ASCII-EXTENDED.txt
-ASCII-EXTENDED.txt.huf
-ASCII.txt
-ASCII.txt.huf
+*.txt
+*.huf

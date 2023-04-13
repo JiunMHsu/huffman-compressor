@@ -1,3 +1,4 @@
+
 #ifndef _TQUEUE_TAD_
 #define _TQUEUE_TAD_
 
@@ -6,41 +7,50 @@
 
 using namespace std;
 
-template<typename T>
-struct Queue
+template <typename T>
+struct Queue // 1.7.6.1
 {
+   Node<T>* first;
+   Node<T>* last;
+   int size;
 };
 
-template<typename T>
-Queue<T> queue()
+template <typename T>
+Queue<T> queue() // 1.7.6.2
 {
    Queue<T> q;
+   q.first = NULL;
+   q.last = NULL;
+   q.size = 0;
    return q;
 }
 
-template<typename T>
-T* queueEnqueue(Queue<T>& q, T e)
+template <typename T>
+T* queueEnqueue(Queue<T>& q, T e) // 1.7.6.3
 {
-   return NULL;
+   Node<T>* node = enqueue<T>(q.first, q.last, e);
+   q.size++;
+   return &(node->data);
 }
 
-template<typename T>
-T queueDequeue(Queue<T>& q)
+template <typename T>
+T queueDequeue(Queue<T>& q) // 1.7.6.4
 {
-   T t;
+   T t = dequeue<T>(q.first, q.last);
+   q.size--;
    return t;
 }
 
-template<typename T>
-bool queueIsEmpty(Queue<T> q)
+template <typename T>
+bool queueIsEmpty(Queue<T> q) // 1.7.6.5
 {
-   return true;
+   return q.size == 0;
 }
 
-template<typename T>
-int queueSize(Queue<T> q)
+template <typename T>
+int queueSize(Queue<T> q) // 1.7.6.6
 {
-   return 0;
+   return q.size;
 }
 
 #endif
